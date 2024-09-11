@@ -1,3 +1,25 @@
+#Методы для работы с 4-м заданием
+def sum_of_simple_divisors(number)
+	list_of_simple_divisors = [] #Создаем массив, куда будем пихаь наши найденные простые делители
+	divisor = 2 #Начинаем с двойки, так как 1 не считается простой
+	while(divisor * divisor <= number) do 
+		if(number % divisor == 0) 
+		#Если делится нацело, пушим в массив и делим это число на делитель
+			list_of_simple_divisors.push(divisor)
+			number /= divisor
+		else 
+			#Иначе - берем следующий возможный делитель
+			divisor += 1
+		end
+	end
+	#если у нас число больше единицы в итоге, то пушим его в массив
+	list_of_simple_divisors.push(number) if (number > 1)
+	#Выводим сумму
+	puts("Сумма простых делителей числа равна #{list_of_simple_divisors.sum}")
+end
+
+
+
 # База
 puts("Hello, world!")
 
@@ -57,3 +79,10 @@ if system(os_command)
 else
 	puts("Ошибка выполнения")
 end
+
+#Просим пользователя ввести число
+puts("Введите число")
+number = gets.chomp.to_i
+
+#Выполняем метод для подсчета суммы простых делителей заданного числа
+sum_of_simple_divisors(number)

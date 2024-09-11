@@ -29,3 +29,31 @@ when 'c#', 'java'
 else
   puts('Неважно, скоро будет Ruby')
 end
+
+#Просим пользователя ввести команду Ruby
+puts("Введите команду Ruby:")
+ruby_command = gets.chomp
+
+#Разбиваем команду на части для дальнейшей проверки, существует ли она в целом.
+ruby_command_parts = ruby_command.split(' ')
+
+#Первая часть команды - метод
+method_name = ruby_command_parts[0].to_sym
+
+#Проверяем, существует ли метод в классе Kernel(Включает в себя базовые команды типа puts, print)
+if (Kernel.respond_to?(method_name))
+	puts('Смотри, что ты наделал:')
+	eval(ruby_command)
+else
+	puts("Команда '#{ruby_command}' не найдена")
+end
+
+#Просим пользователя выполнить ввести команду ОС
+puts("Введите команду ОС:")
+os_command = gets.chomp
+
+if system(os_command)
+	puts("Выполнено")
+else
+	puts("Ошибка выполнения")
+end

@@ -17,8 +17,19 @@ def sum_of_simple_divisors(number)
 	#Выводим сумму
 	puts("Сумма простых делителей числа равна #{list_of_simple_divisors.sum}")
 end
-
-
+#Метод для подсчета нечетных цифр, больших тройки в числе.
+def count_of_odd_numbers_greater_than_three(number)
+	number_of_numbers_found = 0
+	#Пока число существует выполняем алгоритм подсчета
+	while(number != 0) do
+		last_digit = number % 10 #Выбираем последнюю цифру
+		if(last_digit.odd? && last_digit > 3) #Проверяем на нечетность и болььше ли она тройки
+			number_of_numbers_found += 1 #Если да, то увеличиваем счетчик
+		end
+		number /= 10 #Избавляемся от последней цифры числа
+	end
+	puts("Количество нечетных цифр числа, больших равно #{number_of_numbers_found}")
+end
 
 # База
 puts("Hello, world!")
@@ -86,3 +97,6 @@ number = gets.chomp.to_i
 
 #Выполняем метод для подсчета суммы простых делителей заданного числа
 sum_of_simple_divisors(number)
+
+#Выполняем метод для подсчета количества нечетных цифр, больших 3 для заданного числа
+count_of_odd_numbers_greater_than_three(number)

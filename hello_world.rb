@@ -74,6 +74,40 @@ def product_of_divisors_with_digit_sum_less_than_number(number)
 	end
 end
 
+#Методы для 5-го задания
+
+#Метод для поиска минимального элемента в массиве
+def minimal_element_of_array(arr)
+	#Проверяем массив на наличие элементов внутри
+	if(!arr.empty?)
+		min = arr[0]
+		#Проходимся по массиву, сравниваем с предыдущим минимальным, выводим
+		for element in arr
+			if element < min 
+				min = element
+			end
+		end
+		return min
+	else 
+		return "Массив пуст"
+	end
+end
+
+#Метод для поиска первого положительного элемента в массиве
+def first_positive_element(arr)
+	#Проверяем массив на наличие элементов внутри
+	if(!arr.empty?)
+		#Проходимся по массиву, выводим индекс
+		for i in 0...arr.length
+			if(arr[i] > 0)
+				return i
+			end
+		end
+	else
+		return "Массив пуст"
+	end
+end
+
 #Main
 #База
 puts("Hello, world!")
@@ -147,3 +181,13 @@ count_of_odd_numbers_greater_than_three(number)
 
 #Выполняем метод для подсчета произведения таких делителей числа, сумма цифр которых меньше, чем сумма цифр исходного числа
 product_of_divisors_with_digit_sum_less_than_number(number)
+
+test_array = [-4,-3,-2,-1,0,1,2,3,4,5]
+
+#Задание 5
+min = minimal_element_of_array(test_array)
+puts("min: #{min}")
+
+first_pos = first_positive_element(test_array)
+puts("first_pos: #{first_pos}")
+

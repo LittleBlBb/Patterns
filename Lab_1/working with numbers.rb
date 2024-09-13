@@ -1,11 +1,11 @@
 #Методы для работы с 4-м заданием
-def sum_of_simple_divisors(number)
-	list_of_simple_divisors = [] #Создаем массив, куда будем пихаь наши найденные простые делители
+def sum_of_prime_divisors(number)
+	list_of_prime_divisors = [] #Создаем массив, куда будем пихаь наши найденные простые делители
 	divisor = 2 #Начинаем с двойки, так как 1 не считается простой
 	while(divisor * divisor <= number) do 
 		if(number % divisor == 0) 
 		#Если делится нацело, пушим в массив и делим это число на делитель
-			list_of_simple_divisors.push(divisor)
+			list_of_prime_divisors.push(divisor)
 			number /= divisor
 		else 
 			#Иначе - берем следующий возможный делитель
@@ -13,9 +13,9 @@ def sum_of_simple_divisors(number)
 		end
 	end
 	#если у нас число больше единицы в итоге, то пушим его в массив
-	list_of_simple_divisors.push(number) if (number > 1)
+	list_of_prime_divisors.push(number) if (number > 1)
 	#Выводим сумму
-	puts("Сумма простых делителей числа равна #{list_of_simple_divisors.sum}")
+	puts("Сумма простых делителей числа равна #{list_of_prime_divisors.sum}")
 end
 
 #Метод для подсчета нечетных цифр, больших тройки в числе.
@@ -79,7 +79,7 @@ puts("Введите число")
 number = gets.chomp.to_i
 
 #Выполняем метод для подсчета суммы простых делителей заданного числа
-sum_of_simple_divisors(number)
+sum_of_prime_divisors(number)
 
 #Выполняем метод для подсчета количества нечетных цифр, больших 3 для заданного числа
 count_of_odd_numbers_greater_than_three(number)

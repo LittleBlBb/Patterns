@@ -1,0 +1,2 @@
+#База
+puts("Hello, world!")

@@ -1,20 +1,70 @@
 class Student
 	#Удобная штука, которая автоматически создает геттеры, сеттеры для всех полей
-	attr_accessor :id, :last_name, :first_name, :middle_name, :phone, :telegram, :email, :github
-
+	attr_accessor :id, :last_name, :first_name, :middle_name
+	#Автоматом делает геттеры
+	attr_reader :phone, :telegram, :email, :github
 	#Конструктор
 	def initialize(id: nil, first_name:, last_name:, middle_name:, phone: nil, telegram: nil, email: nil, github: nil)
 		@id = id
 		@last_name = last_name
 		@first_name = first_name
 		@middle_name = middle_name
-		@phone = phone if Student.phone_number?(phone)
-		@telegram = telegram
-		@email = email
-		@github = github
+		self.phone = phone if phone #Валидация в сеттере
+		self.telegram = telegram if telegram #Валидация в сеттере
+		self.email = email if email #Валидация в сеттере
+		self.github = github if github #Валидация в сеттере
 	end
 
-	def self.phone_number?(phone)
+	#Метод для вывода информации о студенте
+	def display_info
+		puts("ID: #{@id}") if @id
+		puts("Фамилия: #{@last_name}")
+		puts("Имя: #{@first_name}")
+		puts("Отчество: #{@middle_name}")
+		puts("Телефон: #{@phone}") if @phone
+		puts("Телеграм: #{@telegram}") if @telegram
+		puts("Почта: #{@email}") if @email
+		puts("Github: #{@github}") if @github
+	end
+
+	#Сеттер номера с валидацией
+	def phone=(phone)
+		if Student.phone_valid?(phone)
+			@phone = phone
+		else
+			puts "Invalid phone"
+		end
+	end
+
+	#Сеттер телеги с валидацией
+	def telegram=(telegram)
+		if Student.telegram_valid?(telegram)
+			@telegram = telegram
+		else
+			puts "Invalid telegram"
+		end
+	end
+
+	#Сеттер почты с валидацией
+	def email=(email)
+		if Student.email_valid?(email)
+			@email = email
+		else
+			puts "Invalid email"
+		end
+	end
+
+	#Сеттер гита с валидацией
+	def github=(github)
+		if Student.github_valid?(github)
+			@github = github
+		else
+			puts "Invalid github"
+		end
+	end
+
+	#Валидация номера телефона
+	def self.phone_valid?(phone)
 		#Проверяем, что phone - это строка
 		return false unless phone.is_a? (String)
 
@@ -29,16 +79,19 @@ class Student
 		end	
 	end
 
-	#Метод для вывода информации о студенте
-	def display_info
-		puts("ID: #{@id}") if @id
-		puts("Фамилия: #{@last_name}")
-		puts("Имя: #{@first_name}")
-		puts("Отчество: #{@middle_name}")
-		puts("Телефон: #{@phone}") if @phone
-		puts("Телеграм: #{@telegram}") if @telegram
-		puts("Почта: #{@email}") if @email
-		puts("Github: #{@github}") if @github
+	#Валидация почты
+	def self.email_valid?(email)
+		email.match?(/\A[^@\s]+@[^@\s]+\.[^@\s]+\z/)
+	end
+
+	#Валидация телеги
+	def self.telegram_valid?(telegram)
+		telegram.match?(/\A@[a-zA-Z0-9_]{5,}\z/)
+	end
+
+	#Валидация гитхаба
+	def self.github_valid?(github)
+		github.match?(/\Ahttps:\/\/github.com\/[a-zA-Z0-9_-]+\z/)
 	end
 end
 
@@ -56,14 +109,12 @@ student = Student.new(
 student.display_info
 
 #Пример использования сеттера и геттера
-student.id= 52
-puts("\nID = #{student.id}")
-student.telegram= "changed_tg"
-puts("telegram: #{student.telegram}")
+student.id = 52
+student.telegram = "@changed_tg"
 student.display_info
 
-#Тест нового метода phone_number?
-puts("+79528125252 - номер? Результат #{Student.phone_number?("+79528125252")}")
-puts("89528125252 - номер? Результат #{Student.phone_number?("89528125252")}")
-puts("86412346 - номер? Результат #{Student.phone_number?("86412346")}")
-puts("+7*******123 - номер? Результат #{Student.phone_number?("+7*******123")}")
+#Попытка задать некорректные значения
+student.phone = "12345"       # Некорректный телефон
+student.email = "wrong.email" # Некорректный email
+student.telegram = "tg"       # Некорректный Telegram
+student.github = "github.com/LittleBlBb" # Некорректный GitHub

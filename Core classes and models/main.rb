@@ -7,7 +7,7 @@ student1 = Student.new(
 	last_name: "Пшеничнов",
 	middle_name: "Александрович",
 	id: 1,
-	phone: "+7952812525",
+	phone: "+79528125252",
 	telegram: "@test_telegram",
 	email: "apdragon2014@gmail.com",
 	github: "https://github.com/LittleBlBb"
@@ -17,7 +17,7 @@ student2 = Student.new(
 	last_name: "Дука",
 	middle_name: "Андреевич",
 	id: 2,
-	phone: "+7123456789",
+	phone: "+71234******",
 	telegram: "@test_telegram2",
 	email: "duka@mail.ru",
 	github: "https://github.com/sdnezz"

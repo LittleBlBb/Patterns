@@ -1,9 +1,9 @@
 class Student
 	#Удобная штука, которая автоматически создает геттеры, сеттеры для всех полей
-	attr_accessor :last_name, :first_name, :middle_name, :phone, :telegram, :email, :github
+	attr_accessor :id, :last_name, :first_name, :middle_name, :phone, :telegram, :email, :github
 
 	#Конструктор
-	def initialize(id:, first_name:, last_name:, middle_name:, phone: nil, telegram: nil, email: nil, github: nil)
+	def initialize(id: nil;, first_name:, last_name:, middle_name:, phone: nil, telegram: nil, email: nil, github: nil)
 		@id = id
 		@last_name = last_name
 		@first_name = first_name
@@ -14,19 +14,9 @@ class Student
 		@github = github
 	end
 
-	#Пример написания геттера без использования attr_accessor
-	def id
-		@id
-	end
-	
-	#Пример написания Сеттера без использования attr_accessor
-	def id=(value)
-		@id = value
-	end
-
 	#Метод для вывода информации о студенте
 	def display_info
-		puts("ID: #{@id}")
+		puts("ID: #{@id}") if @id
 		puts("Фамилия: #{@last_name}")
 		puts("Имя: #{@first_name}")
 		puts("Отчество: #{@middle_name}")

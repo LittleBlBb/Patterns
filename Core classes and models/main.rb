@@ -49,3 +49,10 @@ student1.validate
 
 #Тест проваленой валидации
 student3.validate
+
+student2.set_contacts(
+	email: "testemail@example.ru",
+	telegram: "@testtelegram",
+	phone: "+79912345436"
+	)
+student2.display_info

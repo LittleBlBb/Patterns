@@ -32,3 +32,20 @@ student3 = Student.new(
 student1.display_info
 student2.display_info
 student3.display_info
+
+#Пример использования сеттера и геттера
+student1.id = 52
+student1.telegram = "@changed_tg"
+student1.display_info
+
+#Попытка задать некорректные значения
+student1.phone = "12345"       # Некорректный телефон
+student1.email = "wrong.email" # Некорректный email
+student1.telegram = "tg"       # Некорректный Telegram
+student1.github = "github.com/LittleBlBb" # Некорректный GitHub
+
+#Тест пройденой валидации
+student1.validate
+
+#Тест проваленой валидации
+student3.validate

@@ -93,28 +93,28 @@ class Student
 	def self.github_valid?(github)
 		github.match?(/\Ahttps:\/\/github.com\/[a-zA-Z0-9_-]+\z/)
 	end
+
+	#Проверяем, присутствует ли хотя бы один контакт студента
+	def contact_present?
+		@phone || @phone || @email
+	end
+
+	#Проверяем, присутствует ли гит у студента
+	def git_present?
+		@github
+	end
+
+	#Метод, проводящий две валидации: наличие гита и наличие любого контакта для связи
+	def validate
+		errors = []
+		errors << "Github не указан в профиле студента" unless git_present?
+		errors << "Контакты не указаны в профиле студента" unless contact_present?
+		
+		if errors.empty?
+			puts "Валидация пройдена"
+		else
+			puts "Валидация не пройдена\nОшибки валидации:"
+			errors.each{|error| puts error}
+		end
+	end
 end
-
-#Создание экземпляра класса Student
-student = Student.new(
-	first_name: "Андрей",
-	last_name: "Пшеничнов",
-	middle_name: "Александрович",
-	id: 1,
-	phone: "+79528125252",
-	telegram: "@test_telegram",
-	email: "apdragon2014@gmail.com",
-	github: "https://github.com/LittleBlBb"
-)
-student.display_info
-
-#Пример использования сеттера и геттера
-student.id = 52
-student.telegram = "@changed_tg"
-student.display_info
-
-#Попытка задать некорректные значения
-student.phone = "12345"       # Некорректный телефон
-student.email = "wrong.email" # Некорректный email
-student.telegram = "tg"       # Некорректный Telegram
-student.github = "github.com/LittleBlBb" # Некорректный GitHub

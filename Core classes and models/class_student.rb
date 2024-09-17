@@ -27,42 +27,6 @@ class Student
 		puts("Github: #{@github}") if @github
 	end
 
-	#Сеттер номера с валидацией
-	def phone=(phone)
-		if Student.phone_valid?(phone)
-			@phone = phone
-		else
-			puts "Invalid phone"
-		end
-	end
-
-	#Сеттер телеги с валидацией
-	def telegram=(telegram)
-		if Student.telegram_valid?(telegram)
-			@telegram = telegram
-		else
-			puts "Invalid telegram"
-		end
-	end
-
-	#Сеттер почты с валидацией
-	def email=(email)
-		if Student.email_valid?(email)
-			@email = email
-		else
-			puts "Invalid email"
-		end
-	end
-
-	#Сеттер гита с валидацией
-	def github=(github)
-		if Student.github_valid?(github)
-			@github = github
-		else
-			puts "Invalid github"
-		end
-	end
-
 	#Валидация номера телефона
 	def self.phone_valid?(phone)
 		#Проверяем, что phone - это строка
@@ -77,6 +41,15 @@ class Student
 		else
 			return false
 		end	
+	end
+
+	#Сеттер гита с валидацией
+	def github=(github)
+		if Student.github_valid?(github)
+			@github = github
+		else
+			puts "Invalid github"
+		end
 	end
 
 	#Валидация почты
@@ -115,6 +88,42 @@ class Student
 		else
 			puts "Валидация не пройдена\nОшибки валидации:"
 			errors.each{|error| puts error}
+		end
+	end
+
+	#Метод для установки значений контактов
+	def set_contacts(phone: nil, email: nil, telegram: nil)
+		self.phone = phone
+		self.email = email
+		self.telegram = telegram
+	end
+	
+	private
+	
+	#Сеттер номера с валидацией
+	def phone=(phone)
+		if Student.phone_valid?(phone)
+			@phone = phone
+		else
+			puts "Invalid phone"
+		end
+	end
+
+	#Сеттер телеги с валидацией
+	def telegram=(telegram)
+		if Student.telegram_valid?(telegram)
+			@telegram = telegram
+		else
+			puts "Invalid telegram"
+		end
+	end
+
+	#Сеттер почты с валидацией
+	def email=(email)
+		if Student.email_valid?(email)
+			@email = email
+		else
+			puts "Invalid email"
 		end
 	end
 end

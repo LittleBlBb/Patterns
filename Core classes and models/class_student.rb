@@ -30,7 +30,7 @@ class Student
 	#Валидация номера телефона
 	def self.phone_valid?(phone)
 		#Проверяем, что phone - это строка
-		return false unless phone.is_a? (String)
+		return false unless phone.is_a?(String)
 
 		#Проверяем номер длиной 11 символов
 		if phone.length == 11

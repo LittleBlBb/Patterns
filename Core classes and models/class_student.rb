@@ -15,6 +15,52 @@ class Student
 		self.github = github if github #Валидация в сеттере
 	end
 
+	#Строковое представление объекта
+	def to_s
+		str = []
+		str << "ID: #{@id}" if @id
+		str << "Имя: #{@first_name}"
+		str << "Фамилия: #{@last_name}"
+		str << "Отчество: #{@middle_name}"
+		str << "Телефон: #{@phone}" if phone
+		str << "Телеграм: #{@telegram}" if telegram
+		str << "Почта: #{@email}" if email
+		str << "GitHub: #{@github}" if github
+		str.join(';')
+	end
+
+	def self.from_string(str)
+		#Создаем пустой хэш
+		data = {}
+
+		#Парсим строку по "; " и извлекаем ключи и значения
+		str.split('; ').each do |pair|
+			key, value = pair.split(': ').map(&:strip)
+			#Заполняем хэш
+			case key
+			when "ID"
+				data[:id] = value.to_i
+			when "Имя"
+				data[:first_name] = value
+			when "Фамилия"
+				data[:last_name] = value
+			when "Отчество"
+				data[:middle_name] = value
+			when "Телефон"
+				data[:phone] = value
+			when "Телеграм"
+				data[:telegram] = value
+			when "Почта"
+				data[:email] = value
+			when "GitHub"
+				data[:github] = value				
+			end
+		end
+
+		#Передаем хэш с параметрами в конструктор(** отвечает за развертывание хэша, превращая его ключи в аргументы конструктора)
+		self.new(**data)
+	end
+
 	#Метод для вывода информации о студенте
 	def display_info
 		puts("ID: #{@id}") if @id

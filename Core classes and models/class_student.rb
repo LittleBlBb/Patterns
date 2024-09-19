@@ -1,8 +1,8 @@
 class Student
 	#Удобная штука, которая автоматически создает геттеры, сеттеры для всех полей
-	attr_accessor :id, :last_name, :first_name, :middle_name
+	attr_accessor :id
 	#Автоматом делает геттеры
-	attr_reader :phone, :telegram, :email, :github
+	attr_reader :phone, :telegram, :email, :github, :last_name, :first_name, :middle_name
 	#Конструктор
 	def initialize(id: nil, first_name:, last_name:, middle_name:, phone: nil, telegram: nil, email: nil, github: nil)
 		@id = id
@@ -27,6 +27,21 @@ class Student
 		str << "Почта: #{@email}" if email
 		str << "GitHub: #{@github}" if github
 		str.join(';')
+	end
+
+	def get_info
+		info = []
+		str = "ФИО: " + @last_name + " " + @first_name[0].upcase + "." + @middle_name[0].upcase + "."
+		info << str
+		info << "GitHub: #{@github}" if github
+		if phone
+			info << "Телефон: #{@phone}"
+		elsif email
+			info << "Почта: #{@email}"
+		elsif telegram
+			info << "Телеграм: #{@telegram}"
+		end
+		info.join(';')
 	end
 
 	def self.from_string(str)

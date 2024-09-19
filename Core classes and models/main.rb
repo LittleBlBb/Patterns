@@ -66,5 +66,4 @@ student_string = "ID: 1; Имя: Андрей; Фамилия: Пшенично�
 student4 = Student.from_string(student_string)
 
 #Выводим информацию о студенте
-puts "ZAZA"
 student4.display_info

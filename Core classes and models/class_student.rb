@@ -31,8 +31,7 @@ class Student
 
 	def get_info
 		info = []
-		str = "ФИО: " + @last_name + " " + @first_name[0].upcase + "." + @middle_name[0].upcase + "."
-		info << str
+		info << "Инициалы: #{@last_name} #{@first_name[0]}.#{@middle_name[0]}."
 		info << "GitHub: #{@github}" if github
 		if phone
 			info << "Телефон: #{@phone}"
@@ -68,7 +67,7 @@ class Student
 			when "Почта"
 				data[:email] = value
 			when "GitHub"
-				data[:github] = value				
+				data[:github] = value
 			end
 		end
 
@@ -85,7 +84,7 @@ class Student
 		puts("Телефон: #{@phone}") if @phone
 		puts("Телеграм: #{@telegram}") if @telegram
 		puts("Почта: #{@email}") if @email
-		puts("Github: #{@github}") if @github
+		puts("GitHub: #{@github}") if @github
 	end
 
 	#Валидация номера телефона
@@ -109,7 +108,7 @@ class Student
 		if Student.github_valid?(github)
 			@github = github
 		else
-			puts "Invalid github"
+			puts "Invalid GitHub"
 		end
 	end
 
@@ -141,7 +140,7 @@ class Student
 	#Метод, проводящий две валидации: наличие гита и наличие любого контакта для связи
 	def validate
 		errors = []
-		errors << "Github не указан в профиле студента" unless git_present?
+		errors << "GitHub не указан в профиле студента" unless git_present?
 		errors << "Контакты не указаны в профиле студента" unless contact_present?
 		
 		if errors.empty?
@@ -188,3 +187,73 @@ class Student
 		end
 	end
 end
+
+class StudentShort
+	attr_reader :id, :initials, :github, :contact
+	def initialize(student)
+		if student.is_a?(Student)
+			@id = student.id if student.id
+			@initials = "#{student.last_name} #{student.first_name[0].upcase}.#{student.middle_name[0].upcase}."
+			@github = student.github if student.github
+			@contact = 
+			if student.phone
+				"Телефон: #{student.phone}"
+			elsif student.email
+				"Почта: #{student.email}"
+			elsif student.telegram
+				"Телеграм: #{student.telegram}"
+			end
+		elsif student.is_a?(String)
+			data = self.class.from_string(student)
+			@id = data[:id] if data[:id]
+			@initials = data[:initials]
+			@github = data[:github] if data[:github]
+			@contact = data[:contact] if data[:contact]
+		end
+	end
+
+	def self.from_string(str)
+		data = {}
+
+		#Разбираем строку, заполняем хэш
+		str.split(';').each do |pair|
+			key, value = pair.split(': ').map(&:strip)
+			case key
+			when "Инициалы"
+				data[:initials] = value
+			when "GitHub"
+				data[:github] = value
+			when "Телефон", "Почта", "Телеграм"
+				data[:contact] = "#{key}: #{value}"
+			when "ID"
+				data[:id] = value.to_i
+			end
+		end
+		data
+	end
+
+	def display_info
+		puts "ID: #{@id}" if id
+		puts "Инициалы: #{@initials}"
+		puts "GitHub: #{@github}" if github
+		puts "#{@contact}" if contact
+	end
+end
+
+#Создание через объект Student
+student = Student.new(
+	first_name: "Андрей",
+	last_name: "Пшеничнов",
+	middle_name: "Александрович",
+	id: 1,
+	phone: "+79528125252",
+	telegram: "@test_telegram",
+	email: "apdragon2014@gmail.com",
+	github: "https://github.com/LittleBlBb"
+	)
+student2 = StudentShort.new(student)
+student2.display_info
+
+#Создание через строку
+student3 = StudentShort.new(student.get_info)
+student3.display_info

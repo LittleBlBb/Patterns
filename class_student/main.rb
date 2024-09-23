@@ -1,5 +1,5 @@
 #Подключаем файл с классом Student
-require_relative 'class_student'
+require_relative 'student'
 
 
 # Тестирование

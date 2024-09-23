@@ -1,15 +1,13 @@
 class Student
-  attr_accessor :id
-  attr_reader :phone, :telegram, :email, :github, :last_name, :first_name, :middle_name
+  attr_accessor :id, :last_name, :middle_name, :first_name
+  attr_reader :phone, :telegram, :email, :github
 
   def initialize(id: nil, first_name:, last_name:, middle_name:, phone: nil, telegram: nil, email: nil, github: nil)
     @id = id
     @last_name = last_name
     @first_name = first_name
     @middle_name = middle_name
-    self.phone = phone if phone
-    self.telegram = telegram if telegram
-    self.email = email if email
+    set_contacts(phone: phone, telegram: telegram, email: email) if (phone || telegram || email)
     self.github = github if github
   end
 
@@ -74,6 +72,12 @@ class Student
       end
     end
     data
+  end
+
+  def set_contacts(phone: nil, email: nil, telegram: nil)
+    self.phone = phone if phone
+    self.email = email if email
+    self.telegram = telegram if telegram
   end
 
   def display_info

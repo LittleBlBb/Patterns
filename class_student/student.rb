@@ -80,6 +80,24 @@ class Student
     self.telegram = telegram if telegram
   end
 
+  def self.read_from_txt(path)
+    begin
+      #Выкидываем ошибку
+      raise "Файл не найден или некоррекный путь: #{path}" unless File.exist?(path)
+      students = []
+      #Читаем файл построчно
+      File.readlines(path).each do |line|
+        #Проверяем строки, пустые или нет
+        next if line.strip.empty?
+        students << Student.new(**Student.from_string(line.strip))
+      end
+      students
+    #Записываем объект ошибки в переменную
+    rescue => e
+      puts "Ошибка: #{e.message}"
+    end
+  end
+
   def display_info
     puts("ID: #{@id}") if @id
     puts("Фамилия: #{@last_name}")

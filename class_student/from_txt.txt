@@ -1,0 +1,3 @@
+ID: 1; Имя: Андрей; Фамилия: Пшеничнов; Отчество: Александрович; Телефон: +79528122233; Почта: apdragon2014@gmail.com; GitHub: https://github.com/LittleBlBb
+ID: 2; Имя: Петр; Фамилия: Петров; Отчество: Петрович; Телефон: +79887776655; Телеграм: @petrov; GitHub: https://github.com/petrov
+ID: 3; Имя: Мария; Фамилия: Смирнова; Отчество: Сергеевна; Почта: smirnova@example.com; Телеграм: @smirnova; GitHub: https://github.com/smirnova

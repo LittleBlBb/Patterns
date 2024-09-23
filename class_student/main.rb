@@ -22,3 +22,10 @@ student2.display_info
 # Создание через строку
 student3 = StudentShort.new(student.get_info)
 student3.display_info
+
+#Тест для read_from_txt
+path = "from_txt.txt"
+students_from_txt = Student.read_from_txt(path)
+students_from_txt.each do |stud|
+  stud.display_info
+end

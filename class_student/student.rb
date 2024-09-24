@@ -44,32 +44,37 @@ class Student
 
   def self.from_string(str)
     data = {}
-    str.split('; ').each do |pair|
-      key, value = pair.split(': ').map(&:strip)
-      case key
-      when "ID"
-        data[:id] = value.to_i
-      when "Имя"
-        data[:first_name] = value
-      when "Фамилия"
-        data[:last_name] = value
-      when "Отчество"
-        data[:middle_name] = value
-      when "Телефон"
-        data[:phone] = value
-      when "Телеграм"
-        data[:telegram] = value
-      when "Почта"
-        data[:email] = value
-      when "GitHub"
-        data[:github] = value
-      when "Инициалы"
-        initials = value.split(' ')
-        data[:last_name] = initials[0]
-        initials_split = initials[1].split('.')
-        data[:first_name] = initials_split[0]
-        data[:middle_name] = initials_split[1]
+    begin
+      raise "Строка пустая, нечего парсить." if str.nil? || str.strip.empty?
+      str.split('; ').each do |pair|
+        key, value = pair.split(': ').map(&:strip)
+        case key
+        when "ID"
+          data[:id] = value.to_i
+        when "Имя"
+          data[:first_name] = value
+        when "Фамилия"
+          data[:last_name] = value
+        when "Отчество"
+          data[:middle_name] = value
+        when "Телефон"
+          data[:phone] = value
+        when "Телеграм"
+          data[:telegram] = value
+        when "Почта"
+          data[:email] = value
+        when "GitHub"
+          data[:github] = value
+        when "Инициалы"
+          initials = value.split(' ')
+          data[:last_name] = initials[0]
+          initials_split = initials[1].split('.')
+          data[:first_name] = initials_split[0]
+          data[:middle_name] = initials_split[1]
+        end
       end
+    rescue => e
+      puts "Ошибка парсинга строки: #{e.message}"
     end
     data
   end
@@ -124,34 +129,38 @@ class Student
   private
 
   def phone=(phone)
-    if Student.phone_valid?(phone)
+    begin
+      raise "Invalid phone" unless Student.phone_valid?(phone)
       @phone = phone
-    else
-      puts "Invalid phone"
+    rescue => e
+      puts "Ошибка валидации телефона: #{e.message}"
     end
   end
 
   def telegram=(telegram)
-    if Student.telegram_valid?(telegram)
+    begin
+      raise "Invalid telegram" unless Student.telegram_valid?(telegram)
       @telegram = telegram
-    else
-      puts "Invalid telegram"
+    rescue => e
+      puts "Ошибка валидации телеграма: #{e.message}"
     end
   end
 
   def email=(email)
-    if Student.email_valid?(email)
+    begin 
+      raise "Invalid email" unless Student.email_valid?(email)
       @email = email
-    else
-      puts "Invalid email"
+    rescue => e
+      puts "Ошибка валидации почты: #{e.message}"
     end
   end
 
   def github=(github)
-    if Student.github_valid?(github)
+    begin
+      raise "Invalid GitHub" unless Student.github_valid?(github)
       @github = github
-    else
-      puts "Invalid GitHub"
+    rescue => e
+      puts "Ошибка валидации гита: #{e.message}"
     end
   end
 

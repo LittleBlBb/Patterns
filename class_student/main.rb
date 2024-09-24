@@ -35,3 +35,6 @@ path = "C:/Users/Kertis/Desktop/Ruby/class_student/"
 file_name = "to_txt.txt"
 path += file_name
 Student.write_to_txt(path, students_from_txt)
+
+#Тест для ошибок в методе
+Student.from_string("    ")

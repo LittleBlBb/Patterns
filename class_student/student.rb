@@ -109,6 +109,18 @@ class Student
     puts("GitHub: #{@github}") if @github
   end
 
+  def self.write_to_txt(path, students)
+    begin
+      File.open(path, 'w') do |file|
+        students.each do |student|
+          file.puts student.to_s
+        end
+      end
+    rescue => e
+      puts "Ошибка записи в файл: #{e.message}"
+    end
+  end
+
   private
 
   def phone=(phone)

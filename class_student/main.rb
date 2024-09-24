@@ -29,3 +29,9 @@ students_from_txt = Student.read_from_txt(path)
 students_from_txt.each do |stud|
   stud.display_info
 end
+
+#Тест для write_to_txt
+path = "C:/Users/Kertis/Desktop/Ruby/class_student/"
+file_name = "to_txt.txt"
+path += file_name
+Student.write_to_txt(path, students_from_txt)

@@ -2,7 +2,7 @@ class Student
   attr_accessor :id, :last_name, :middle_name, :first_name
   attr_reader :phone, :telegram, :email, :github
 
-  def initialize(id: nil, first_name:, last_name:, middle_name:, phone: nil, telegram: nil, email: nil, github: nil)
+  def initialize(first_name:, last_name:, middle_name:, phone: nil, telegram: nil, email: nil, github: nil, id: nil)
     @id = id
     @last_name = last_name
     @first_name = first_name
@@ -44,39 +44,35 @@ class Student
 
   def self.from_string(str)
     data = {}
-    begin
-      raise "Строка пустая, нечего парсить." if str.nil? || str.strip.empty?
-      str.split('; ').each do |pair|
-        key, value = pair.split(': ').map(&:strip)
-        case key
-        when "ID"
-          data[:id] = value.to_i
-        when "Имя"
-          data[:first_name] = value
-        when "Фамилия"
-          data[:last_name] = value
-        when "Отчество"
-          data[:middle_name] = value
-        when "Телефон"
-          data[:phone] = value
-        when "Телеграм"
-          data[:telegram] = value
-        when "Почта"
-          data[:email] = value
-        when "GitHub"
-          data[:github] = value
-        when "Инициалы"
-          initials = value.split(' ')
-          data[:last_name] = initials[0]
-          initials_split = initials[1].split('.')
-          data[:first_name] = initials_split[0]
-          data[:middle_name] = initials_split[1]
-        end
+    raise "Ошибка парсинга строки: Строка пустая, нечего парсить." if str.nil? || str.strip.empty?
+    str.split('; ').each do |pair|
+      key, value = pair.split(': ').map(&:strip)
+      case key
+      when "ID"
+        data[:id] = value.to_i
+      when "Имя"
+        data[:first_name] = value
+      when "Фамилия"
+        data[:last_name] = value
+      when "Отчество"
+        data[:middle_name] = value
+      when "Телефон"
+        data[:phone] = value
+      when "Телеграм"
+        data[:telegram] = value
+      when "Почта"
+        data[:email] = value
+      when "GitHub"
+        data[:github] = value
+      when "Инициалы"
+        initials = value.split(' ')
+        data[:last_name] = initials[0]
+        initials_split = initials[1].split('.')
+        data[:first_name] = initials_split[0]
+        data[:middle_name] = initials_split[1]
       end
-    rescue => e
-      puts "Ошибка парсинга строки: #{e.message}"
     end
-    data
+    Student.new(**data)
   end
 
   def set_contacts(phone: nil, email: nil, telegram: nil)
@@ -94,24 +90,13 @@ class Student
       File.readlines(path).each do |line|
         #Проверяем строки, пустые или нет
         next if line.strip.empty?
-        students << Student.new(**Student.from_string(line.strip))
+        students << Student.from_string(line.strip)
       end
       students
     #Записываем объект ошибки в переменную
     rescue => e
       puts "Ошибка: #{e.message}"
     end
-  end
-
-  def display_info
-    puts("ID: #{@id}") if @id
-    puts("Фамилия: #{@last_name}")
-    puts("Имя: #{@first_name}")
-    puts("Отчество: #{@middle_name}")
-    puts("Телефон: #{@phone}") if @phone
-    puts("Телеграм: #{@telegram}") if @telegram
-    puts("Почта: #{@email}") if @email
-    puts("GitHub: #{@github}") if @github
   end
 
   def self.write_to_txt(path, students)
@@ -165,6 +150,22 @@ class Student
   end
 
   # Валидации
+  def self.id_valid?(id)
+    id.is_a?(Ineger) && id > 0
+  end
+
+  def self.first_name_valid?(first_name)
+    first_name.match?(/\A[А-Яа-яA-Za-z]+(?:-[А-Яа-яA-Za-z]+)?\z/)
+  end
+
+  def self.last_name_valid?(last_name)
+    last_name.match?(/\A[А-Яа-яA-Za-z]+(?:-[А-Яа-яA-Za-z]+)?\z/)
+  end
+
+  def self.middle_name_valid?(middle_name)
+    middle_name.match?(/\A[А-Яа-яA-Za-z]+(?:-[А-Яа-яA-Za-z]+)?\z/)
+  end
+
   def self.phone_valid?(phone)
     phone.match?(/^\+?\d{10,12}$/)
   end
@@ -183,43 +184,65 @@ class Student
 end
 
 class StudentShort < Student
-  attr_reader :initials, :contact
+  attr_reader :initials, :contact, :id, :github
 
   def initialize(student)
-    if student.is_a?(Student)
-      super(
-        id: student.id,
-        first_name: student.first_name,
-        last_name: student.last_name,
-        middle_name: student.middle_name,
-        phone: student.phone,
-        telegram: student.telegram,
-        email: student.email,
-        github: student.github
-      )
-      @initials = "#{student.last_name} #{student.first_name[0].upcase}.#{student.middle_name[0].upcase}."
-      @contact = student.contact_info
-    elsif student.is_a?(String)
-      data = Student.from_string(student)
-      super(
-        id: data[:id],
-        first_name: data[:first_name],
-        last_name: data[:last_name],
-        middle_name: data[:middle_name],
-        phone: data[:phone],
-        telegram: data[:telegram],
-        email: data[:email],
-        github: data[:github]
-      )
-      @initials = "#{@last_name} #{@first_name[0].upcase}.#{@middle_name[0].upcase}."
-      @contact = contact_info
-    end
+    @id = student.id if student.id
+    @initials = "#{student.last_name} #{student.first_name[0]}.#{student.middle_name[0]}."
+    @contact = student.contact_info || "Контакт не указан"
+    @github = student.github if student.github
   end
 
-  def display_info
-    puts "ID: #{@id}" if id
-    puts "Инициалы: #{@initials}"
-    puts "GitHub: #{@github}" if @github
-    puts "#{@contact}" if @contact
+  # Метод from_string для обработки строк разных типов
+  def self.from_string(string, id: nil)
+    data = {}
+
+    # Разбиваем строку на компоненты
+    string.split('; ').each do |pair|
+      key, value = pair.split(': ').map(&:strip)
+      case key
+      when "ID"
+        data[:id] = value.to_i
+      when "Инициалы"
+        initials = value.split(' ')
+        data[:last_name] = initials[0]
+        data[:first_name], data[:middle_name] = initials[1].split('.').map(&:strip)
+      when "Имя"
+        data[:first_name] = value
+      when "Фамилия"
+        data[:last_name] = value
+      when "Отчество"
+        data[:middle_name] = value
+      when "Телефон", "Почта", "Телеграм"
+        data[:contact] = value
+      when "GitHub"
+        data[:github] = value
+      end
+    end
+
+    # Создаем объект Student
+    student = Student.new(
+      first_name: data[:first_name],
+      last_name: data[:last_name],
+      middle_name: data[:middle_name],
+      phone: data[:contact],
+      github: data[:github]
+    )
+
+    # Устанавливаем ID, если он передан напрямую или найден в строке
+    student.id = data[:id] || id  # Теперь ID устанавливается, даже если оно передано как аргумент
+
+    # Возвращаем объект StudentShort
+    StudentShort.new(student)
+  end
+
+  def to_s
+    str = []
+    str << "ID: #{@id}" if @id  # Вывод ID если он установлен
+    str << "Инициалы: #{@initials}"
+    str << "Контакт: #{@contact}"
+    str << "GitHub: #{@github}" if github
+    str.join('; ')
   end
 end
+

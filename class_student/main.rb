@@ -1,6 +1,5 @@
-#Подключаем файл с классом Student
+# Подключаем файл с классом Student
 require_relative 'student'
-
 
 # Тестирование
 
@@ -16,25 +15,30 @@ student = Student.new(
   github: "https://github.com/LittleBlBb"
 )
 
+# Создание через объект Student (для класса StudentShort)
 student2 = StudentShort.new(student)
-student2.display_info
+puts "Вывод студента 2: \n#{student2}"
 
-# Создание через строку
-student3 = StudentShort.new(student.get_info)
-student3.display_info
+# Создание через строку (с ID и информацией)
+student_info = student.get_info  # Получаем строку с get_info
+student3 = StudentShort.from_string(student_info, id: student.id)  # Передаем строку и ID
+puts "Вывод студента 3: \n#{student3}"
 
-#Тест для read_from_txt
-path = "from_txt.txt"
+# Тест для read_from_txt
+puts "Вывод студентов из файла:\n"
+path = "from_txt.txt"  # Указываем путь к файлу
 students_from_txt = Student.read_from_txt(path)
 students_from_txt.each do |stud|
-  stud.display_info
+  puts stud
 end
 
-#Тест для write_to_txt
-path = "C:/Users/Kertis/Desktop/Ruby/class_student/"
-file_name = "to_txt.txt"
-path += file_name
-Student.write_to_txt(path, students_from_txt)
+# Тест для write_to_txt
+write_path = "C:/Users/Kertis/Desktop/Ruby/class_student/to_txt.txt"  # Путь для записи в файл
+Student.write_to_txt(write_path, students_from_txt)
 
-#Тест для ошибок в методе
-Student.from_string("    ")
+# Тест для ошибок в методе
+begin
+  Student.from_string("    ")  # Пустая строка, вызовет ошибку
+rescue => e
+  puts "Ошибка: #{e.message}"
+end

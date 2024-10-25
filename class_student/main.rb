@@ -1,6 +1,6 @@
 # Подключаем файл с классами
-require_relative 'student'
-
+require_relative 'Student'
+require_relative 'StudentShort'
 #Перенес методы, мол че их пихать в классы, если они есть в рельсах
 def read_from_txt(path)
   begin

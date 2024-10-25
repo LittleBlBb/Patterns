@@ -1,26 +1,7 @@
-class StudentBase
-  attr_accessor :id
-  attr_reader :github
-
-  def initialize(id: nil, github: nil)
-    self.id = id if id
-    self.github = github if github
-  end
-
-  def github=(github)
-    raise ArgumentError unless StudentBase.github_valid?(github)
-    @github = github
-  end
-
-  # Валидация GitHub
-  def self.github_valid?(github)
-    github.match?(/\Ahttps:\/\/github.com\/[a-zA-Z0-9_-]+\z/)
-  end
-end
+require_relative 'StudentBase'
 
 class Student < StudentBase
-  attr_accessor :first_name, :last_name, :middle_name
-  attr_reader :phone, :email, :telegram
+  attr_reader :phone, :email, :telegram, :first_name, :last_name, :middle_name
 
   def initialize(first_name:, last_name:, middle_name:, phone: nil, email: nil, telegram: nil, id: nil, github: nil)
     super(id: id, github: github)
@@ -30,17 +11,32 @@ class Student < StudentBase
     set_contacts(phone: phone, email: email, telegram: telegram) if phone || email || telegram
   end
 
+  def first_name=(first_name)
+    raise ArgumentError, "Некорректное имя" unless Student.name_valid?(first_name)
+    @first_name = first_name
+  end
+
+  def last_name=(last_name)
+    raise ArgumentError, "Некорректная фамилия" unless Student.name_valid?(last_name)
+    @last_name = last_name
+  end
+
+  def middle_name=(middle_name)
+    raise ArgumentError, "Некорректное отчество" unless Student.name_valid?(middle_name)
+    @middle_name = middle_name
+  end
+
   def set_contacts(phone: nil, email: nil, telegram: nil)
     self.phone = phone if phone
     self.email = email if email
     self.telegram = telegram if telegram
   end
 
-  def contact_info
+  def contact    
     return "Телефон: #{@phone}" if phone
     return "Почта: #{@email}" if email
     return "Телеграм: #{@telegram}" if telegram
-    "Контакт не указан"
+    nil
   end
 
   def to_s
@@ -60,28 +56,15 @@ class Student < StudentBase
     info = []
     info << "Инициалы: #{@last_name} #{@first_name[0]}.#{@middle_name[0]}."
     info << "GitHub: #{@github}" if github
-    info << contact_info
+    info << contact
     info.compact.join('; ')
   end
 
-  private
-
-  def phone=(phone)
-    raise ArgumentError unless Student.phone_valid?(phone)
-    @phone = phone
-  end
-
-  def email=(email)
-    raise ArgumentError unless Student.email_valid?(email)
-    @email = email
-  end
-
-  def telegram=(telegram)
-    raise ArgumentError unless Student.telegram_valid?(telegram)
-    @telegram = telegram
-  end
-
   # Валидации
+  def self.name_valid?(name)
+    name.match?(/\A[А-Яа-яёЁA-Za-z]+\z/)
+  end
+
   def self.phone_valid?(phone)
     phone.match?(/^\+?\d{10,12}$/)
   end
@@ -129,53 +112,21 @@ class Student < StudentBase
     end
     data
   end
-end
 
-class StudentShort < StudentBase
-  attr_reader :initials, :contact
+  private
 
-  def initialize(student)
-    super(id: student.id, github: student.github)
-    @initials = "#{student.last_name} #{student.first_name[0]}.#{student.middle_name[0]}."
-    @contact = student.contact_info
+  def phone=(phone)
+    raise ArgumentError unless Student.phone_valid?(phone)
+    @phone = phone
   end
 
-  def to_s
-    str = []
-    str << "ID: #{@id}" if @id
-    str << "Инициалы: #{@initials}"
-    str << "Контакт: #{@contact}"
-    str << "GitHub: #{@github}" if github
-    str.join('; ')
+  def email=(email)
+    raise ArgumentError unless Student.email_valid?(email)
+    @email = email
   end
 
-  def self.from_string(str, id: nil)
-    data = Student.from_string_base(str)
-    str.split('; ').each do |pair|
-      key, value = pair.split(': ').map(&:strip)
-      case key
-      when "Инициалы"
-        initials = value.split(' ')
-        data[:last_name] = initials[0]
-        name_parts = initials[1].split('.')
-        data[:first_name] = name_parts[0]
-        data[:middle_name] = name_parts[1]
-      when "GitHub"
-        data[:github] = value
-      end
-    end
-    data[:id] = id if id
-
-    student = Student.new(
-      first_name: data[:first_name],
-      last_name: data[:last_name],
-      middle_name: data[:middle_name],
-      id: data[:id],
-      phone: data[:phone],
-      email: data[:email],
-      telegram: data[:telegram],
-      github: data[:github]
-    )
-    StudentShort.new(student)
+  def telegram=(telegram)
+    raise ArgumentError unless Student.telegram_valid?(telegram)
+    @telegram = telegram
   end
 end

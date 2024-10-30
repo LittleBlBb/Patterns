@@ -7,6 +7,10 @@ class StudentBase
     self.github = github if github
   end
 
+  def self.from_string()
+    raise NotImplemetedError
+  end
+
   def github=(github)
     raise ArgumentError unless StudentBase.github_valid?(github)
     @github = github

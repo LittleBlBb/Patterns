@@ -1,8 +1,7 @@
 require_relative 'StudentBase'
 
 class StudentShort < StudentBase
-  attr_accessor :initials
-  attr_reader :contact
+  attr_reader :contact, :initials
   def initialize(student)
     super(id: student.id, github: student.github)
     self.initials = "#{student.last_name} #{student.first_name[0]}.#{student.middle_name[0]}."
@@ -47,6 +46,11 @@ class StudentShort < StudentBase
     )
     StudentShort.new(student)
   end
+  private
+  def initials=(initials)
+    @initials = initials unless initials.nil?
+  end
+
   def contact= (info)
     @contact = info unless info.nil?
   end

@@ -59,6 +59,13 @@ students_from_txt.each do |stud|
   puts stud
 end
 
+puts student.has_github?
+puts student.get_git_and_contact
+
+puts student2.has_github?
+puts student2.has_contact?
+puts student2.get_git_and_contact
+
 # Тест для write_to_txt
 write_path = "to_txt.txt"  # Путь для записи в файл
 write_to_txt(write_path, students_from_txt)

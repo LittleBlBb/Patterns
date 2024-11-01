@@ -46,6 +46,16 @@ class StudentShort < StudentBase
     )
     StudentShort.new(student)
   end
+
+  def has_contact?
+    return true if self.contact
+    false
+  end
+
+  def get_git_and_contact
+    "GitHub: #{self.github} contact: #{self.contact}"
+  end
+
   private
   def initials=(initials)
     @initials = initials unless initials.nil?

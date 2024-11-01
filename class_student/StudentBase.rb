@@ -7,8 +7,9 @@ class StudentBase
     self.github = github if github
   end
 
-  def self.from_string()
-    raise NotImplemetedError
+  def has_github?
+    return true if self.github
+    false
   end
 
   def github=(github)
@@ -19,5 +20,19 @@ class StudentBase
   # Валидация GitHub
   def self.github_valid?(github)
     github.match?(/\Ahttps:\/\/github.com\/[a-zA-Z0-9_-]+\z/)
+  end
+
+  protected
+
+    def self.from_string()
+    raise NotImplemetedError
+  end
+
+  def get_git_and_contact
+    raise NotImplemetedError
+  end
+
+  def has_contact?
+    raise NotImplemetedError
   end
 end

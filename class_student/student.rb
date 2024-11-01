@@ -32,6 +32,15 @@ class Student < StudentBase
     self.telegram = telegram if telegram
   end
 
+  def has_contact?
+    return true if self.contact
+    false
+  end
+
+  def get_git_and_contact
+    "GitHub: #{self.github} contact: #{self.contact}"
+  end
+
   def contact    
     return "Телефон: #{@phone}" if phone
     return "Почта: #{@email}" if email

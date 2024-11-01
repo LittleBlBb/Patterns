@@ -16,6 +16,14 @@ def read_input
 		read_input
 	end
 end
+#1
+def count_after_last_max(array)
+  last_index = array.rindex(array.max)
+  elements_after_max = array.drop(last_index + 1)
+  elements_after_max.each { |element| yield(element) } if block_given?
+  count = elements_after_max.size
+end
+
 #13
 #Метод перемещения элементов до минимального в конец списка с явным вызовом блока
 def move_elements(array, &block)
@@ -50,18 +58,23 @@ end
 	
 def choose_task
 	puts "Введите номер задачи:\n" + 
-	"1 - Разместить элементы до минимального в конец массива.\n" +
-	"2 - Найти максимальное число в массиве в заданном диапазоне.\n" +
-	"3 - Найти индексы элементов, меньших, чем их левые соседи."
+	"1 - Найти количество элементов, расположенных после последнего максимального.\n" +
+  "2 - Разместить элементы до минимального в конец массива.\n" +
+	"3 - Найти максимальное число в массиве в заданном диапазоне.\n" +
+	"4 - Найти индексы элементов, меньших, чем их левые соседи."
   	task = gets.chomp.to_i
 
   	case task
-  	when 1
+    when 1
+      array = read_input
+      count_after_last_max(array) do |result|
+        puts "Result: #{result.inspect}"
+  	when 2
   		array = read_input
   		move_elements(array) do |result|
   			puts "Result: #{result.inspect}"
   		end
-  	when 2
+  	when 3
   		array = read_input
   		puts "start index: "
   		start_index = gets.chomp.to_i
@@ -71,7 +84,7 @@ def choose_task
   			puts "Result: #{example}"
   		end
   		puts max
-  	when 3
+  	when 4
   		array = read_input
   		find_indices_and_count(array) do |index|
   			puts "Element on #{index} index lower than left neighbor"

@@ -37,4 +37,13 @@ class Processing_array
    	    end
    	    nil
    	end
+
+   	def none?
+   		return true if !block_given? && empty?
+
+   		self.array.each do |element|
+   			return false if yield(element)
+   		end
+   		true
+   	end
 end

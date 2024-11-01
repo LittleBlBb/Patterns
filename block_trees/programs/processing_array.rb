@@ -26,14 +26,27 @@ class ProcessingArray
       1
     end
   end
-
+#1
+def any?
+	if !block_given?
+		self.array.each do |element|
+			return true unless element.nil? || element == false
+		end
+		return false
+	end
+	self.array.each do |element|
+		return true if yield(element)
+	end
+	false
+end
+#13
   def find_index(value)
     self.array.each_with_index do |item, index|
       return index if item == value
     end
     nil
   end
-
+#25
   def none?
     return true if !block_given? && array.empty?
 
@@ -42,7 +55,7 @@ class ProcessingArray
     end
     true
   end
-
+#36
   def reduce(initial_value = nil)
     if initial_value.nil?
       accumulator = array[0]

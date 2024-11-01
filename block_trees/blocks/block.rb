@@ -16,6 +16,12 @@ def read_input
 		read_input
 	end
 end
+
+def prime?(number)
+  return false if number <= 1
+  (2..Math.sqrt(number)).none? {|i| number % i == 0}
+end
+
 #1
 def count_after_last_max(array)
   last_index = array.rindex(array.max)
@@ -39,7 +45,6 @@ def max_element_in_interval(array, start_index, end_index, &block)
 	max = new_array[0]
 	block.call(new_array) if block_given?
 	new_array.each {|number| max = number if number > max}	
-
 	max
 end
 
@@ -52,16 +57,27 @@ def find_indices_and_count(array)
 			i
 		end
 	end.compact
-	puts "Indexes: #{indices}"
-	puts "Count: #{indices.size}"
+  return indices, indices.size
 end
-	
+
+#49
+def unique_prime_divisors(array)
+  divisors = array.flat_map do |number|
+    (2..number).select { |divisor| number % divisor == 0 && prime?(divisor)}
+  end.uniq
+
+  divisors.each{|divisor| yield(divisor) } if block_given?
+
+  divisors
+end
+
 def choose_task
 	puts "Введите номер задачи:\n" + 
 	"1 - Найти количество элементов, расположенных после последнего максимального.\n" +
   "2 - Разместить элементы до минимального в конец массива.\n" +
 	"3 - Найти максимальное число в массиве в заданном диапазоне.\n" +
-	"4 - Найти индексы элементов, меньших, чем их левые соседи."
+	"4 - Найти индексы элементов, меньших, чем их левые соседи.\n" +
+  "5 - Построить список всех положительных простых делителей элементов списка без повторений."
   	task = gets.chomp.to_i
 
   	case task
@@ -69,6 +85,7 @@ def choose_task
       array = read_input
       count_after_last_max(array) do |result|
         puts "Result: #{result.inspect}"
+      end
   	when 2
   		array = read_input
   		move_elements(array) do |result|
@@ -89,6 +106,11 @@ def choose_task
   		find_indices_and_count(array) do |index|
   			puts "Element on #{index} index lower than left neighbor"
   		end
+    when 5
+      array = read_input
+      unique_prime_divisors(array) do |divisor|
+        puts "Найден простой делитель: #{divisor}"
+      end
   	else
   		puts "Неверный выбор. Попробуйте снова"
   		choose_task

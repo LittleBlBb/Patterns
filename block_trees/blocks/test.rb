@@ -15,6 +15,17 @@ class TestProcessingArray < Minitest::Test
   	assert(proc_array.any? {|element| element > 7 } == expected_answer_false)
   	assert(proc_array.any? {|element| element <= 5 }== expected_answer_true)
   end
+  def test_find_all
+  	array = [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]
+  	proc_array = ProcessingArray.new(array)
+  	expected_array1 = [3, 4, 5]
+  	expected_array2 = []
+  	expected_array3 = [-5,-4,-3,-2,-1,0]
+  	assert(proc_array.find_all{|element| element > 2} == expected_array1)
+  	assert(proc_array.find_all{|element| element > 6} == expected_array2)
+  	assert(proc_array.find_all{|element| element <= 0} == expected_array3)
+
+  end
   def test_find_index
     array = [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]
     proc_array = ProcessingArray.new(array)

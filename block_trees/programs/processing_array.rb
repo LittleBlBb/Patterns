@@ -16,37 +16,35 @@ class ProcessingArray
     raise IndexError if index >= array.size || index < 0
     array[index]
   end
-
-  def <=>(other)
-    if self.array.sum < other.array.sum
-      -1
-    elsif self.array.sum == other.array.sum
-      0
-    else
-      1
-    end
-  end
 #1
-def any?
-	if !block_given?
-		self.array.each do |element|
-			return true unless element.nil? || element == false
-		end
-		return false
-	end
-	self.array.each do |element|
-		return true if yield(element)
-	end
-	false
-end
-#13
+  def any?
+  	if !block_given?
+  		self.array.each do |element|
+  			return true unless element.nil? || element == false
+  		end
+  		return false
+  	end
+  	self.array.each do |element|
+  		return true if yield(element)
+  	end
+  	false
+  end
+  #12
+  def find_all
+  	result = []
+  	self.array.each do |element|
+  		result << element if yield(element)
+  	end
+  	result
+  end
+  #13
   def find_index(value)
     self.array.each_with_index do |item, index|
       return index if item == value
     end
     nil
   end
-#25
+  #25
   def none?
     return true if !block_given? && array.empty?
 
@@ -55,7 +53,7 @@ end
     end
     true
   end
-#36
+  #36
   def reduce(initial_value = nil)
     if initial_value.nil?
       accumulator = array[0]

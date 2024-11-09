@@ -13,7 +13,8 @@ class TestProcessingArray < Minitest::Test
   	assert(proc_array.any? == expected_answer_true)
   	assert(proc_array2.any? == expected_answer_false)
   	assert(proc_array.any? {|element| element > 7 } == expected_answer_false)
-  	assert(proc_array.any? {|element| element <= 5 }== expected_answer_true)
+  	assert(proc_array.any? {|element| element <= 5 } == expected_answer_true)
+    assert(proc_array.any? {|element| element <= 5 } == array.any? {|element| element <= 5})
   end
   def test_find_all
   	array = [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]
@@ -33,6 +34,7 @@ class TestProcessingArray < Minitest::Test
     expected_answer_5 = 5
     assert(proc_array.find_index(3) == expected_answer_8)
     assert(proc_array.find_index(0) == expected_answer_5)
+    assert(proc_array.find_index(0) == array.find_index(0))
   end
 
   def test_none
@@ -42,6 +44,7 @@ class TestProcessingArray < Minitest::Test
     expected_answer_false = false
     assert(proc_array.none? { |num| num > 5 } == expected_answer_true)
     assert(proc_array.none? { |num| num < -3 } == expected_answer_false)
+    assert(proc_array.none? { |num| num < -3 } == array.none? { |num| num < -3})
   end
 
   def test_reduce
@@ -53,6 +56,6 @@ class TestProcessingArray < Minitest::Test
     assert(proc_array.reduce(0) { |acc, elem| acc + elem } == expected_answer_0)
     assert(proc_array.reduce(1) { |acc, elem| acc * elem } == expected_answer_negative14400)
     assert(proc_array.reduce(8) { |acc, elem| acc + elem } == expected_answer_8)
+    assert(proc_array.reduce(8) { |acc, elem| acc + elem } == array.reduce(8) { |acc, elem| acc + elem })
   end
-
 end

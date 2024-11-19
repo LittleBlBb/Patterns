@@ -11,8 +11,8 @@ class StudentShort < StudentBase
   def to_s
     str = []
     str << "ID: #{@id}" if @id
-    str << "Инициалы: #{@initials}"
-    str << "Контакт: #{@contact}"
+    str << "Initials: #{@initials}"
+    str << "Contacts: #{@contact}"
     str << "GitHub: #{@github}" if github
     str.join('; ')
   end
@@ -22,7 +22,7 @@ class StudentShort < StudentBase
     str.split('; ').each do |pair|
       key, value = pair.split(': ').map(&:strip)
       case key
-      when "Инициалы"
+      when "Initials"
         initials = value.split(' ')
         data[:last_name] = initials[0]
         name_parts = initials[1].split('.')
@@ -42,7 +42,8 @@ class StudentShort < StudentBase
       phone: data[:phone],
       email: data[:email],
       telegram: data[:telegram],
-      github: data[:github]
+      github: data[:github],
+      birthdate: data[:birthdate]
     )
     StudentShort.new(student)
   end

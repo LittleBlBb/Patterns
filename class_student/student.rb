@@ -1,14 +1,20 @@
 require_relative 'StudentBase'
+require 'date'
 
 class Student < StudentBase
-  attr_reader :phone, :email, :telegram, :first_name, :last_name, :middle_name
+  attr_reader :phone, :email, :telegram, :first_name, :last_name, :middle_name, :birthdate
 
-  def initialize(first_name:, last_name:, middle_name:, phone: nil, email: nil, telegram: nil, id: nil, github: nil)
+  def initialize(first_name:, last_name:, middle_name:, birthdate:, phone: nil, email: nil, telegram: nil, id: nil, github: nil)
     super(id: id, github: github)
     self.first_name = first_name
     self.last_name = last_name
     self.middle_name = middle_name
     set_contacts(phone: phone, email: email, telegram: telegram) if phone || email || telegram
+    self.birthdate = birthdate
+  end
+
+  def birthdate=(birthdate)
+    @birthdate = Date.parse(birthdate) unless birthdate.nil?
   end
 
   def first_name=(first_name)
@@ -41,29 +47,30 @@ class Student < StudentBase
     "GitHub: #{self.github} contact: #{self.contact}"
   end
 
-  def contact    
-    return "Телефон: #{@phone}" if phone
-    return "Почта: #{@email}" if email
-    return "Телеграм: #{@telegram}" if telegram
+  def contact
+    return "Phone: #{@phone}" if phone
+    return "Email: #{@email}" if email
+    return "Telegram: #{@telegram}" if telegram
     nil
   end
 
   def to_s
     str = []
     str << "ID: #{@id}" if @id
-    str << "Имя: #{@first_name}"
-    str << "Фамилия: #{@last_name}"
-    str << "Отчество: #{@middle_name}"
-    str << "Телефон: #{@phone}" if phone
-    str << "Телеграм: #{@telegram}" if telegram
-    str << "Почта: #{@email}" if email
+    str << "Firstname: #{@first_name}"
+    str << "Surname: #{@last_name}"
+    str << "Lastname: #{@middle_name}"
+    str << "Birthdate: #{@birthdate}"
+    str << "Phone: #{@phone}" if phone
+    str << "Telegram: #{@telegram}" if telegram
+    str << "Email: #{@email}" if email
     str << "GitHub: #{@github}" if github
     str.join('; ')
   end
 
   def get_info
     info = []
-    info << "Инициалы: #{@last_name} #{@first_name[0]}.#{@middle_name[0]}."
+    info << "Initials: #{@last_name} #{@first_name[0]}.#{@middle_name[0]}."
     info << "GitHub: #{@github}" if github
     info << contact
     info.compact.join('; ')
@@ -105,18 +112,20 @@ class Student < StudentBase
     str.split('; ').each do |pair|
       key, value = pair.split(': ').map(&:strip)
       case key
-      when "Имя"
+      when "Firstname"
         data[:first_name] = value
-      when "Фамилия"
+      when "Lastname"
         data[:last_name] = value
-      when "Отчество"
+      when "Surname"
         data[:middle_name] = value
-      when "Телефон"
+      when "Phone"
         data[:phone] = value
-      when "Почта"
+      when "Email"
         data[:email] = value
-      when "Телеграм"
+      when "Telegram"
         data[:telegram] = value
+      when "Birthdate"
+        data[:birthdate] = value
       end
     end
     data

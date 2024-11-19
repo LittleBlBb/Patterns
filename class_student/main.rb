@@ -39,8 +39,10 @@ student = Student.new(
   phone: "+79528125252",
   telegram: "@test_telegram",
   email: "apdragon2014@gmail.com",
-  github: "https://github.com/LittleBlBb"
+  github: "https://github.com/LittleBlBb",
+  birthdate: "May 12 2004"
 )
+puts "Вывод студента 1: \n#{student}"
 
 # Создание через объект Student (для класса StudentShort)
 student2 = StudentShort.new(student)

@@ -144,17 +144,17 @@ class Student < StudentBase
   private
 
   def phone=(phone)
-    raise ArgumentError unless Student.phone_valid?(phone)
+    raise ArgumentError, "Invalid phone" unless Student.phone_valid?(phone)
     @phone = phone
   end
 
   def email=(email)
-    raise ArgumentError unless Student.email_valid?(email)
+    raise ArgumentError, "Invalid email" unless Student.email_valid?(email)
     @email = email
   end
 
   def telegram=(telegram)
-    raise ArgumentError unless Student.telegram_valid?(telegram)
+    raise ArgumentError, "Invalid telegram" unless Student.telegram_valid?(telegram)
     @telegram = telegram
   end
 end

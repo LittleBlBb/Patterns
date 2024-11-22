@@ -1,0 +1,7 @@
+ID: 1; Firstname: Андрей; Lastname: Пшеничнов; Surname: Александрович; Phone: +79528122233; Email: apdragon2014@gmail.com; GitHub: https://github.com/LittleBlBb; Birthdate: 2004-05-12
+ID: 2; Firstname: Петр; Lastname: Петров; Surname: Петрович; Phone: +79887776655; Telegram: @petrov; GitHub: https://github.com/petrov; Birthdate: 2000-12-12
+ID: 3; Firstname: Мария; Lastname: Смирнова; Surname: Сергеевна; Email: smirnova@example.com; Telegram: @smirnova; GitHub: https://github.com/smirnova; Birthdate: 2000-02-12
+ID: 4; Firstname: Михаил; Lastname: Горшенев; Surname: Кишов; Email: KIW@example.com; Telegram: @MainGuyInKiw; GitHub: https://github.com/KIW; Birthdate: 1978-01-1
+ID: 5; Firstname: Гатс; Lastname: Берсерк; Surname: Гамбинович; Email: Berserk@example.com; Telegram: @TheBlackSwordsman; GitHub: https://github.com/TheBlackSwordsman; Birthdate: 1989-08-25
+ID: 6; Firstname: Гордон; Lastname: Фримен; Surname: Монтировович; Email: BlackMesaWorker@example.com; Telegram: @CascadeResonanceUser; GitHub: https://github.com/TheLyambdaFan; Birthdate: 1972-02-12
+ID: 7; Firstname: Гейб; Lastname: Логан; Surname: Ньюэлл; Email: OfficialGabeNewell@example.com; Telegram: @CreatorOfValve; GitHub: https://github.com/HateTheNumberThree; Birthdate: 1962-11-03

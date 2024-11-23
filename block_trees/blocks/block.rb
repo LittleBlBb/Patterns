@@ -24,28 +24,29 @@ end
 
 #1
 def count_after_last_max(array)
-  last_index = array.rindex(array.max)
-  elements_after_max = array.drop(last_index + 1)
-  elements_after_max.each { |element| yield(element) } if block_given?
-  count = elements_after_max.size
+	array
+		.drop(array.rindex(array.max) + 1)
+		.map{|element| yield(element) if block_given?}
+		.compact
+		.size
 end
 
 #13
 #Метод перемещения элементов до минимального в конец списка с явным вызовом блока
 def move_elements(array, &block)
-	min_index = array.index(array.min)
-
-	new_array = array[min_index..-1] + array[0...min_index]
-
-	block.call(new_array) if block_given?
+	array
+		.min
+		.then{|min| array.index(min)}
+		.then{|min_index| array[min_index..-1] + array[0..min_index]}
+		.tap{|new_array| yield(new_array) if block_given? }
 end
+
 #25
 def max_element_in_interval(array, start_index, end_index, &block)
 	new_array = array[start_index..end_index]
 	max = new_array[0]
 	block.call(new_array) if block_given?
-	new_array.each {|number| max = number if number > max}	
-	max
+	new_array.reduce{|max, number| number > max ? number : max }
 end
 
 #37
@@ -62,13 +63,10 @@ end
 
 #49
 def unique_prime_divisors(array)
-  divisors = array.flat_map do |number|
-    (2..number).select { |divisor| number % divisor == 0 && prime?(divisor)}
-  end.uniq
-
-  divisors.each{|divisor| yield(divisor) } if block_given?
-
-  divisors
+	array
+		.map{|number| (2..number).select {|divisor| number%divisor == 0 && prime?(divisor)}
+		.flatten.uniq
+		.tap{|divisors| divisors.map{|divisor| yield(divisor)} if block_given?}
 end
 
 def choose_task

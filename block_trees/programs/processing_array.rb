@@ -1,8 +1,10 @@
 class ProcessingArray
-  attr_reader :array
-
   def initialize(array)
     self.array = array
+  end
+
+  def array
+    @array.clone
   end
 
   def array=(array)
@@ -16,7 +18,8 @@ class ProcessingArray
     raise IndexError if index >= array.size || index < 0
     array[index]
   end
-#1
+  
+  #1
   def any?
   	if !block_given?
   		self.array.each do |element|
@@ -29,14 +32,17 @@ class ProcessingArray
   	end
   	false
   end
+  
   #12
   def find_all
+    raise LocalJumpError, 'no block given' unless block_given?
   	result = []
   	self.array.each do |element|
   		result << element if yield(element)
   	end
   	result
   end
+  
   #13
   def find_index(value)
     self.array.each_with_index do |item, index|
@@ -44,6 +50,7 @@ class ProcessingArray
     end
     nil
   end
+
   #25
   def none?
     return true if !block_given? && array.empty?
@@ -53,19 +60,17 @@ class ProcessingArray
     end
     true
   end
+
   #36
   def reduce(initial_value = nil)
-    if initial_value.nil?
-      accumulator = array[0]
-      start_index = 1
-    else
-      accumulator = initial_value
-      start_index = 0
-    end
-
-    for i in start_index...array.size
-      element = array[i]
-      accumulator = yield(accumulator, element)
+    raise LocalJumpError, 'no block given' unless block_given?
+    accumulator = initial_value
+    self.array.each do |element|
+      if accumulator.nil?
+        accumulator = element
+      else
+        accumulator = yield(accumulator, element)
+      end
     end
     accumulator
   end

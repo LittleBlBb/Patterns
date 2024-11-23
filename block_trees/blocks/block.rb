@@ -26,26 +26,23 @@ end
 def count_after_last_max(array)
 	array
 		.drop(array.rindex(array.max) + 1)
-		.map{|element| yield(element) if block_given?}
 		.compact
 		.size
 end
 
 #13
 #Метод перемещения элементов до минимального в конец списка с явным вызовом блока
-def move_elements(array, &block)
+def move_elements(array)
 	array
 		.min
 		.then{|min| array.index(min)}
 		.then{|min_index| array[min_index..-1] + array[0..min_index]}
-		.tap{|new_array| yield(new_array) if block_given? }
 end
 
 #25
-def max_element_in_interval(array, start_index, end_index, &block)
+def max_element_in_interval(array, start_index, end_index)
 	new_array = array[start_index..end_index]
 	max = new_array[0]
-	block.call(new_array) if block_given?
 	new_array.reduce{|max, number| number > max ? number : max }
 end
 
@@ -54,7 +51,6 @@ end
 def find_indices_and_count(array)
 	indices = array[1..-1].zip(array).map.with_index(1) do |(current, prev), i|
 		if current < prev
-			yield(i) if block_given?
 			i
 		end
 	end.compact
@@ -64,9 +60,8 @@ end
 #49
 def unique_prime_divisors(array)
 	array
-		.map{|number| (2..number).select {|divisor| number%divisor == 0 && prime?(divisor)}
+		.map{|number| (2..number).select {|divisor| number % divisor == 0 && prime?(divisor)}}
 		.flatten.uniq
-		.tap{|divisors| divisors.map{|divisor| yield(divisor)} if block_given?}
 end
 
 def choose_task
@@ -81,34 +76,24 @@ def choose_task
   	case task
     when 1
       array = read_input
-      count_after_last_max(array) do |result|
-        puts "Result: #{result.inspect}"
-      end
+      puts count_after_last_max(array)
   	when 2
   		array = read_input
-  		move_elements(array) do |result|
-  			puts "Result: #{result.inspect}"
-  		end
+  		puts move_elements(array)
   	when 3
   		array = read_input
   		puts "start index: "
   		start_index = gets.chomp.to_i
   		puts "end index: "
   		end_index = gets.chomp.to_i
-  		max = max_element_in_interval(array, start_index, end_index) do |example|
-  			puts "Result: #{example}"
-  		end
+  		max = max_element_in_interval(array, start_index, end_index)
   		puts max
   	when 4
   		array = read_input
-  		find_indices_and_count(array) do |index|
-  			puts "Element on #{index} index lower than left neighbor"
-  		end
+  		puts find_indices_and_count(array)
     when 5
       array = read_input
-      unique_prime_divisors(array) do |divisor|
-        puts "Найден простой делитель: #{divisor}"
-      end
+      puts unique_prime_divisors(array)
   	else
   		puts "Неверный выбор. Попробуйте снова"
   		choose_task

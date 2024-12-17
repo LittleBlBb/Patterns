@@ -64,6 +64,19 @@ class Student < StudentBase
     nil
   end
 
+  def to_hash
+    {
+      id: @id,
+      first_name: @first_name,
+      last_name: @last_name,
+      middle_name: @middle_name,
+      birthdate: @birthdate,
+      github: @github,
+      contact: @contact,
+      email: @email
+    }
+  end
+
   def to_s
     str = []
     str << "ID: #{@id}" if @id
@@ -122,6 +135,8 @@ class Student < StudentBase
     str.split('; ').each do |pair|
       key, value = pair.split(': ').map(&:strip)
       case key
+      when "ID"
+        data[:id] = value.to_i
       when "Firstname"
         data[:first_name] = value
       when "Lastname"
@@ -158,3 +173,4 @@ class Student < StudentBase
     @telegram = telegram
   end
 end
+

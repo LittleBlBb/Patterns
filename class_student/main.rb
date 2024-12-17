@@ -42,39 +42,41 @@ student = Student.new(
   github: "https://github.com/LittleBlBb",
   birthdate: "May 12 2004"
 )
-puts "Вывод студента 1: \n#{student}"
 
-# Создание через объект Student (для класса StudentShort)
-student2 = StudentShort.new(student)
-puts "Вывод студента 2: \n#{student2}"
+puts student.contact
+# puts "Вывод студента 1: \n#{student}"
 
-# Создание через строку (с ID и информацией)
-student_info = student.get_info  # Получаем строку с get_info
-student3 = StudentShort.from_string(student_info, id: student.id)  # Передаем строку и ID
-puts "Вывод студента 3: \n#{student3}"
+# # Создание через объект Student (для класса StudentShort)
+# student2 = StudentShort.new(student)
+# puts "Вывод студента 2: \n#{student2}"
 
-# Тест для read_from_txt
-puts "Вывод студентов из файла:\n"
-path = "from_txt.txt"  # Указываем путь к файлу
-students_from_txt = read_from_txt(path)
-students_from_txt.each do |stud|
-  puts stud
-end
+# # Создание через строку (с ID и информацией)
+# student_info = student.get_info  # Получаем строку с get_info
+# student3 = StudentShort.from_string(student_info, id: student.id)  # Передаем строку и ID
+# puts "Вывод студента 3: \n#{student3}"
 
-puts student.has_github?
-puts student.get_git_and_contact
+# # Тест для read_from_txt
+# puts "Вывод студентов из файла:\n"
+# path = "from_txt.txt"  # Указываем путь к файлу
+# students_from_txt = read_from_txt(path)
+# students_from_txt.each do |stud|
+#   puts stud
+# end
 
-puts student2.has_github?
-puts student2.has_contact?
-puts student2.get_git_and_contact
+# puts student.has_github?
+# puts student.get_git_and_contact
 
-# Тест для write_to_txt
-write_path = "to_txt.txt"  # Путь для записи в файл
-write_to_txt(write_path, students_from_txt)
+# puts student2.has_github?
+# puts student2.has_contact?
+# puts student2.get_git_and_contact
 
-# Тест для ошибок в методе
-begin
-  Student.from_string("    ")  # Пустая строка, вызовет ошибку
-rescue => e
-  puts "Ошибка: #{e.message}"
-end
+# # Тест для write_to_txt
+# write_path = "to_txt.txt"  # Путь для записи в файл
+# write_to_txt(write_path, students_from_txt)
+
+# # Тест для ошибок в методе
+# begin
+#   Student.from_string("    ")  # Пустая строка, вызовет ошибку
+# rescue => e
+#   puts "Ошибка: #{e.message}"
+# end

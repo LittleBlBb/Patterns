@@ -1,6 +1,5 @@
 class StudentBase
-  attr_accessor :id
-  attr_reader :github
+  attr_reader :github, :id
 
   def initialize(id: nil, github: nil)
     self.id = id if id
@@ -12,6 +11,11 @@ class StudentBase
     false
   end
 
+  def id=(id)
+    raise ArgumentError unless StudentBase.id_valid?(id)
+    @id = id
+  end
+
   def github=(github)
     raise ArgumentError unless StudentBase.github_valid?(github)
     @github = github
@@ -20,6 +24,10 @@ class StudentBase
   # Валидация GitHub
   def self.github_valid?(github)
     github.match?(/\Ahttps:\/\/github.com\/[a-zA-Z0-9_-]+\z/)
+  end
+
+  def self.id_valid?(id)
+    id.is_a?(Integer) && id > 0
   end
 
   protected

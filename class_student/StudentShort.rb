@@ -12,9 +12,18 @@ class StudentShort < StudentBase
     str = []
     str << "ID: #{@id}" if @id
     str << "Initials: #{@initials}"
-    str << "Contacts: #{@contact}"
+    str << "Contact: #{@contact}" if contact
     str << "GitHub: #{@github}" if github
     str.join('; ')
+  end
+
+  def to_hash
+    puts self.contact
+    {
+      id: self.id,
+      initials: self.initials,
+      github: self.github
+    }
   end
 
   def self.from_string(str, id: nil)

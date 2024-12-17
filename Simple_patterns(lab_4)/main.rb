@@ -28,7 +28,7 @@ begin
   stsh1 = StudentShort.new(st1)
   stsh2 = StudentShort.new(st2)
 
-  data_list = Data_list.new([st1, st2])
+  data_list = Data_list.new([st1, st2], ["№", "ФИО", "Гит", "Контакты"])
   data_list.select(0)
   puts "selected: #{data_list.get_selected}"
   data_list.select(1)

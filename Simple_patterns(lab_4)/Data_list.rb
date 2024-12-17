@@ -1,6 +1,6 @@
 class Data_list
 
-  def initialize(elem)
+  def initialize(elem, column_names)
 		@column_names = column_names
 		self.data = elem
 		@selected=[]
@@ -21,13 +21,24 @@ class Data_list
 		@column_names
 	end
 
-	protected
-
 	def get_data
-		raise NotImplementedError, "Method not implemented"
+		result = [self.get_names]
+		index = 1
+		selected.each do |elem|
+			obj = self.data[elem]
+			row = build_row(index, obj)
+			result << row
+			index += 1
+		end
 	end
 
-  private
+	private
+
+	def build_row(index, element)
+		raise NotImplementedError, "Метод не реализован в классе Data_list"
+	end
+
+  protected
 
   attr_accessor :selected
 

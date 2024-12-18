@@ -9,14 +9,6 @@ class Student_List
     read_from_file
   end
 
-  def read_from_file
-    raise NotImplementedError, "Method is not implemented in this class"
-  end
-
-  def write_to_file
-    raise NotImplementedError, "Method is not implemented in this class"
-  end
-
   def get_by_id(student_id)
     received = @students.find {|student| student.id == student_id}
     raise IndexError, "В списке такого номера нет" unless received
@@ -75,6 +67,15 @@ class Student_List
   end
 
   protected
+
+  def read_from_file
+    raise NotImplementedError, "Method is not implemented in this class"
+  end
+
+  def write_to_file
+    raise NotImplementedError, "Method is not implemented in this class"
+  end
+
   attr_reader :file_path
 
   def file_path=(file_path)

@@ -1,11 +1,12 @@
-require_relative '../../class_student/student'
-require_relative '../../class_student/StudentShort'
-require_relative '../Data_list_student_short'
+require_relative 'student'
+require_relative 'StudentShort'
+require_relative 'Data_list/Data_list_student_short'
 
 class Student_List
-  def initialize(file_path)
+  def initialize(file_path, strategy)
     @file_path = file_path
-    @students = []
+    @strategy = strategy
+    @students = read_from_file
     read_from_file
   end
 
@@ -66,15 +67,15 @@ class Student_List
     @students.count {|student| student.class == Student}
   end
 
-  protected
-
   def read_from_file
-    raise NotImplementedError, "Method is not implemented in this class"
+    @strategy.read(@file_path).map {|data| Student.new(**data)}
   end
 
   def write_to_file
-    raise NotImplementedError, "Method is not implemented in this class"
+    @strategy.write(@file_path, @students)
   end
+
+  protected
 
   attr_reader :file_path
 

@@ -64,6 +64,10 @@ class Student < StudentBase
     nil
   end
 
+  def self.from_hash(hash)
+    Student.new(**hash)
+  end
+
   def to_hash
     {
       id: @id,

@@ -5,6 +5,8 @@ require_relative 'Strategy/yaml_strategy'
 require_relative 'student_list'
 require_relative 'Student'
 require_relative 'StudentShort'
+require_relative '../Students/Database/db_connection'
+require_relative './students_list_DB'
 # #Перенес методы, мол че их пихать в классы, если они есть в рельсах
 # def read_from_txt(path)
 #   begin
@@ -35,6 +37,22 @@ require_relative 'StudentShort'
 # Тестирование
 
 # Создание через объект Student
+
+hashST = {
+  first_name: "Андрей",
+  last_name: "Пшеничнов",
+  middle_name: "Александрович",
+  id: 1,
+  phone: "+79528125252",
+  telegram: "@test_telegram",
+  email: "apdragon2014@gmail.com",
+  github: "https://github.com/LittleBlBb",
+  birthdate: "May-12-2004"
+}
+
+hash_st = Student.from_hash(hashST)
+puts hash_st
+
 student1 = Student.new(
   first_name: "Андрей",
   last_name: "Пшеничнов",
@@ -45,6 +63,17 @@ student1 = Student.new(
   email: "apdragon2014@gmail.com",
   github: "https://github.com/LittleBlBb",
   birthdate: "May 12 2004"
+)
+studentup2 = Student.new(
+  first_name: "Test",
+  last_name: "Testov",
+  middle_name: "Testovich",
+  id: 2,
+  phone: "+12345678990",
+  telegram: "@testttt",
+  email: "test@gmail.com",
+  github: "https://github.com/Test",
+  birthdate: "November 14 2004"
 )
 student2 = Student.new(
   first_name: "Александр",
@@ -106,8 +135,30 @@ student3 = Student.new(
 # # rescue => e
 # #   puts "Ошибка: #{e.message}"
 # # end
-student_list_json = Student_List.new('C:\Users\Kertis\Desktop\Ruby\Students\students.json', JSON_strategy.new)
-student_list_yaml = Student_List.new('C:\Users\Kertis\Desktop\Ruby\Students\students.yaml', YAML_strategy.new)
-puts "Sorted JSON Students: #{student_list_json.sort_by_initials}"
-puts "Sorted YAML Students: #{student_list_yaml.sort_by_initials}"
-student_list_json
+# student_list_json = Student_List.new('C:\Users\Kertis\Desktop\Ruby\Students\students.json', JSON_strategy.new)
+# student_list_yaml = Student_List.new('C:\Users\Kertis\Desktop\Ruby\Students\students.yaml', YAML_strategy.new)
+# puts "Sorted JSON Students: #{student_list_json.sort_by_initials}"
+# puts "Sorted YAML Students: #{student_list_yaml.sort_by_initials}"
+# student_list_json
+puts "подключение"
+db = DB_Connection.new('students.db')
+puts "вызов execute"
+rows = db.execute("SELECT * FROM student;")
+rows.each do |row|
+  puts row.inspect
+end
+
+SlDB = Students_list_DB.new(db)
+
+SlDB.update_student_by_id(3, studentup2)
+puts SlDB.get_by_id(3)
+puts SlDB.get_k_n_student_short_list(1,3)
+puts SlDB.add_student(student2)
+puts SlDB.get_k_n_student_short_list(1,4)
+puts SlDB.get_student_count
+puts SlDB.delete_student_by_id(3)
+puts SlDB.get_k_n_student_short_list(1,15)
+
+puts "закрываем подключние"
+db.close
+puts "подключение закрыто"

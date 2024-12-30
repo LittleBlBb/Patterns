@@ -2,9 +2,16 @@ require_relative '../Students/Database/db_connection'
 require_relative '../Students/Data_list/Data_list_student_short'
 
 class Students_list_DB
-  def initialize(db_connection)
-    @db = db_connection
+
+  @instance = nil
+
+  def self.instance(db_connection)
+    if @instance == nil
+      @instance = new(db_connection)
+    end
+    @instance
   end
+
   def get_by_id(student_id)
     query_result = @db.execute("SELECT * FROM Student WHERE id = #{student_id};")
     nil if query_result.empty?
@@ -88,5 +95,11 @@ class Students_list_DB
 
   def get_student_count
     @db.execute("SELECT COUNT(*) FROM student;")
+  end
+
+  private_class_method :new
+
+  def initialize(db_connection)
+    @db = db_connection
   end
 end

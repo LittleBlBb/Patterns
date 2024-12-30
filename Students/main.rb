@@ -148,16 +148,23 @@ rows.each do |row|
   puts row.inspect
 end
 
-SlDB = Students_list_DB.new(db)
+SlDB1 = Students_list_DB.instance(db)
+SlDB2 = Students_list_DB.instance(db)
 
-SlDB.update_student_by_id(3, studentup2)
-puts SlDB.get_by_id(3)
-puts SlDB.get_k_n_student_short_list(1,3)
-puts SlDB.add_student(student2)
-puts SlDB.get_k_n_student_short_list(1,4)
-puts SlDB.get_student_count
-puts SlDB.delete_student_by_id(3)
-puts SlDB.get_k_n_student_short_list(1,15)
+if SlDB1.equal?(SlDB2)
+  puts("Singleton works!!!")
+else
+  puts("Singleton failed!):")
+end
+
+SlDB1.update_student_by_id(3, studentup2)
+puts SlDB2.get_by_id(3)
+puts SlDB1.get_k_n_student_short_list(1,3)
+puts SlDB2.add_student(student2)
+puts SlDB1.get_k_n_student_short_list(1,4)
+puts SlDB2.get_student_count
+puts SlDB1.delete_student_by_id(3)
+puts SlDB2.get_k_n_student_short_list(1,15)
 
 puts "закрываем подключние"
 db.close

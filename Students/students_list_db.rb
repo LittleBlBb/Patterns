@@ -113,5 +113,4 @@ class Students_list_DB
       puts "Произошла ошибка базы данных: #{exception.message}"
     end
   end
-
 end

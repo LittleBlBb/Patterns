@@ -6,9 +6,9 @@ class DB_Connection
 
   @instance = nil
 
-  def self.instance(db_connection)
+  def self.instance(db_name)
     if @instance == nil
-      @instance = new(db_connection)
+      @instance = new(db_name)
     end
     @instance
   end

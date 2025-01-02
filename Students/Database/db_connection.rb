@@ -4,9 +4,13 @@ class DB_Connection
 
   attr_reader :db
 
-  def initialize(db_name)
-    @db_name = db_name
-    connect
+  @instance = nil
+
+  def self.instance(db_connection)
+    if @instance == nil
+      @instance = new(db_connection)
+    end
+    @instance
   end
 
   def connect
@@ -24,5 +28,12 @@ class DB_Connection
 
   def close
     @db.close
+  end
+
+  private_class_method :new
+
+  def initialize(db_name)
+    @db_name = db_name
+    connect
   end
 end

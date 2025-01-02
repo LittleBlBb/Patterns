@@ -3,19 +3,13 @@ require_relative '../Students/Data_list/Data_list_student_short'
 
 class Students_list_DB
 
-  @instance = nil
-
-  def self.instance(db_connection)
-    if @instance == nil
-      @instance = new(db_connection)
-    end
-    @instance
+  def initialize(db_connection)
+    @db = db_connection
   end
 
   def get_by_id(student_id)
     query_result = @db.execute("SELECT * FROM Student WHERE id = #{student_id};")
-    nil if query_result.empty?
-
+    return nil if query_result.nil? || query_result.empty?
     row = query_result.first
     Student.new(
       id: row[0].to_i,
@@ -57,36 +51,43 @@ class Students_list_DB
   end
 
   def add_student(student)
-    @db.execute("
-    INSERT INTO student (last_name, first_name, middle_name, phone, email, telegram, github, birthdate)
-    VALUES(
-            '#{student.last_name}',
-            '#{student.first_name}',
-            '#{student.middle_name}',
-            #{student.phone.nil? ? "NULL" : "'#{student.phone}'"},
-            #{student.email.nil? ? "NULL" : "'#{student.email}'"},
-            #{student.telegram.nil? ? "NULL" : "'#{student.telegram}'"},
-            #{student.github.nil? ? "NULL" : "'#{student.github}'"},
-            '#{student.birthdate}'
-          );
-  ")
+    begin
+      @db.execute("
+        INSERT INTO student (last_name, first_name, middle_name, phone, email, telegram, github, birthdate)
+        VALUES(
+                '#{student.last_name}',
+                '#{student.first_name}',
+                '#{student.middle_name}',
+                #{student.phone.nil? ? "NULL" : "'#{student.phone}'"},
+                #{student.email.nil? ? "NULL" : "'#{student.email}'"},
+                #{student.telegram.nil? ? "NULL" : "'#{student.telegram}'"},
+                #{student.github.nil? ? "NULL" : "'#{student.github}'"},
+                '#{student.birthdate}'
+              );
+            ")
+    rescue SQLite3::Exception => e
+      handle_database_error(e)
+    end
   end
 
-
   def update_student_by_id(student_id, student)
-    @db.execute("
-    UPDATE student
-    SET
-            last_name = '#{student.last_name}',
-            first_name = '#{student.first_name}',
-            middle_name = '#{student.middle_name}',
-            phone = '#{student.phone.nil? ? "NULL" : "#{student.phone}"}',
-            email = '#{student.email.nil? ? "NULL" : "#{student.email}"}',
-            telegram = '#{student.telegram.nil? ? "NULL" : "#{student.telegram}"}',
-            github = '#{student.github.nil? ? "NULL" : "#{student.github}"}',
-            birthdate = '#{student.birthdate}'
-    WHERE id = #{student_id};
-    ")
+    begin
+      @db.execute("
+      UPDATE student
+      SET
+              last_name = '#{student.last_name}',
+              first_name = '#{student.first_name}',
+              middle_name = '#{student.middle_name}',
+              phone = '#{student.phone.nil? ? "NULL" : "#{student.phone}"}',
+              email = '#{student.email.nil? ? "NULL" : "#{student.email}"}',
+              telegram = '#{student.telegram.nil? ? "NULL" : "#{student.telegram}"}',
+              github = '#{student.github.nil? ? "NULL" : "#{student.github}"}',
+              birthdate = '#{student.birthdate}'
+      WHERE id = #{student_id};
+      ")
+    rescue SQLite3::ConstraintException => e
+      handle_database_error(e)
+    end
   end
 
   def delete_student_by_id(student_id)
@@ -97,9 +98,20 @@ class Students_list_DB
     @db.execute("SELECT COUNT(*) FROM student;")
   end
 
-  private_class_method :new
-
-  def initialize(db_connection)
-    @db = db_connection
+  def handle_database_error(exception)
+    if exception.is_a?(SQLite3::ConstraintException)
+      if exception.message.include?("student.github")
+        puts "Ошибка: студент с таким GitHub уже есть."
+      elsif exception.message.include?("student.email")
+        puts "Ошибка: студент с таким Email уже есть."
+      elsif exception.message.include?("student.telegram")
+        puts "Ошибка: студент с таким Telegram уже есть."
+      else
+        puts "Ошибка уникальности: #{exception.message}"
+      end
+    else
+      puts "Произошла ошибка базы данных: #{exception.message}"
+    end
   end
+
 end

@@ -6,8 +6,7 @@ class Student_List
   def initialize(file_path, strategy)
     @file_path = file_path
     @strategy = strategy
-    @students = read_from_file
-    read_from_file
+    @students = read
   end
 
   def get_by_id(student_id)
@@ -41,7 +40,6 @@ class Student_List
     new_id = (@students.map(&:id).max || 0) + 1
     student.id = new_id
     @students << student
-    write_to_file
     student
   end
 
@@ -54,24 +52,22 @@ class Student_List
 
     updated_student.id = student_id
     @students[start_index] = updated_student
-    write_to_file
     true
   end
 
   def delete_student_by_id(student_id)
     @students.reject! {|student| student.id == student_id}
-    write_to_file
   end
 
   def get_student_count
     @students.count {|student| student.class == Student}
   end
 
-  def read_from_file
-    @strategy.read(@file_path).map {|data| Student.new(**data)}
+  def read
+    @strategy.read(@file_path)
   end
 
-  def write_to_file
+  def write
     @strategy.write(@file_path, @students)
   end
 

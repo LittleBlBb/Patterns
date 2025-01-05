@@ -69,10 +69,10 @@ studentup2 = Student.new(
   last_name: "Testov",
   middle_name: "Testovich",
   id: 2,
-  phone: "+12345678993",
-  telegram: "@testttt2",
-  email: "test2@gmail.com",
-  github: "https://github.com/Test2",
+  phone: "+12345678990",
+  telegram: "@testttt",
+  email: "test@gmail.com",
+  github: "https://github.com/Test",
   birthdate: "November 14 2004"
 )
 student2 = Student.new(
@@ -135,11 +135,13 @@ student3 = Student.new(
 # # rescue => e
 # #   puts "Ошибка: #{e.message}"
 # # end
-# student_list_json = Student_List.new('C:\Users\Kertis\Desktop\Ruby\Students\students.json', JSON_strategy.new)
-# student_list_yaml = Student_List.new('C:\Users\Kertis\Desktop\Ruby\Students\students.yaml', YAML_strategy.new)
+# student_list_json = Student_List.new('C:\Users\Kurdicks\Desktop\Ruby\Students\students.json', JSON_strategy.new)
+# student_list_yaml = Student_List.new('C:\Users\Kurdicks\Desktop\Ruby\Students\students.yaml', YAML_strategy.new)
 # puts "Sorted JSON Students: #{student_list_json.sort_by_initials}"
 # puts "Sorted YAML Students: #{student_list_yaml.sort_by_initials}"
-# student_list_json
+# student_list_json.write
+# student_list_yaml.write
+# ===================DataBase============
 puts "подключение"
 db = DB_Connection.instance('students.db')
 puts "вызов execute"
@@ -148,26 +150,16 @@ rows.each do |row|
   puts row.inspect
 end
 
-db2 = DB_Connection.instance('students.db')
-if db.equal?(db2)
-  puts("Singleton works!!!")
-else
-  puts("Singleton failed!):")
-end
+SlDB = Students_list_DB.new(db)
 
-SlDB1 = Students_list_DB.new(db)
-
-SlDB1.update_student_by_id(3, studentup2)
-puts "updated"
-puts SlDB1.get_by_id(3)
-puts SlDB1.get_k_n_student_short_list(1,3)
-SlDB1.add_student(student3)
-puts "added"
-puts SlDB1.get_k_n_student_short_list(1,4)
-puts SlDB1.get_student_count
-SlDB1.delete_student_by_id(3)
-puts "deleted"
-puts SlDB1.get_k_n_student_short_list(1,15)
+SlDB.update_student_by_id(3, studentup2)
+SlDB.get_by_id(3)
+puts SlDB.get_k_n_student_short_list(1,3)
+SlDB.add_student(student2)
+puts SlDB.get_k_n_student_short_list(1,4)
+puts SlDB.get_student_count
+SlDB.delete_student_by_id(3)
+puts SlDB.get_k_n_student_short_list(1,15)
 
 puts "закрываем подключние"
 db.close

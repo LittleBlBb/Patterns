@@ -1,47 +1,25 @@
 [
   {
-    "id": 1,
-    "last_name": "Ivanov",
-    "first_name": "Ivan",
-    "middle_name": "Ivanovich",
-    "phone": "+79121212122",
-    "telegram": "@example",
-    "email": "Test@example.com",
-    "github": "https://github.com/test",
-    "birthdate": "2004-11-14"
-  },
-  {
-    "id": 2,
-    "last_name": "Joker",
-    "first_name": "Alexandr",
-    "middle_name": "Gartenovich",
-    "phone": "+79558896464",
-    "telegram": "@Joker",
-    "email": "Joker@example.com",
-    "github": "https://github.com/Joker",
-    "birthdate": "2000-03-03"
-  },
-  {
     "id": 3,
     "last_name": "Ivanov",
     "first_name": "Ivan",
     "middle_name": "Ivanovich",
     "phone": "+79121212122",
-    "telegram": "@example",
     "email": "Test@example.com",
-    "github": "https://github.com/test",
-    "birthdate": "2004-11-14"
+    "telegram": "@example",
+    "birthdate": "2004-11-14",
+    "github": "https://github.com/test"
   },
   {
-    "id": 4,
-    "last_name": "Joker",
-    "first_name": "Alexandr",
-    "middle_name": "Gartenovich",
-    "phone": "+79558896464",
-    "telegram": "@Joker",
-    "email": "Joker@example.com",
-    "github": "https://github.com/Joker",
-    "birthdate": "2000-03-03"
+    "id": 1,
+    "last_name": "Ivanov",
+    "first_name": "Ivan",
+    "middle_name": "Ivanovich",
+    "phone": "+79121212122",
+    "email": "Test@example.com",
+    "telegram": "@example",
+    "birthdate": "2004-11-14",
+    "github": "https://github.com/test"
   },
   {
     "id": 5,
@@ -49,10 +27,10 @@
     "first_name": "Ivan",
     "middle_name": "Ivanovich",
     "phone": "+79121212122",
-    "telegram": "@example",
     "email": "Test@example.com",
-    "github": "https://github.com/test",
-    "birthdate": "2004-11-14"
+    "telegram": "@example",
+    "birthdate": "2004-11-14",
+    "github": "https://github.com/test"
   },
   {
     "id": 6,
@@ -60,9 +38,31 @@
     "first_name": "Alexandr",
     "middle_name": "Gartenovich",
     "phone": "+79558896464",
-    "telegram": "@Joker",
     "email": "Joker@example.com",
-    "github": "https://github.com/Joker",
-    "birthdate": "2000-03-03"
+    "telegram": "@Joker",
+    "birthdate": "2000-03-03",
+    "github": "https://github.com/Joker"
+  },
+  {
+    "id": 2,
+    "last_name": "Joker",
+    "first_name": "Alexandr",
+    "middle_name": "Gartenovich",
+    "phone": "+79558896464",
+    "email": "Joker@example.com",
+    "telegram": "@Joker",
+    "birthdate": "2000-03-03",
+    "github": "https://github.com/Joker"
+  },
+  {
+    "id": 4,
+    "last_name": "Joker",
+    "first_name": "Alexandr",
+    "middle_name": "Gartenovich",
+    "phone": "+79558896464",
+    "email": "Joker@example.com",
+    "telegram": "@Joker",
+    "birthdate": "2000-03-03",
+    "github": "https://github.com/Joker"
   }
 ]

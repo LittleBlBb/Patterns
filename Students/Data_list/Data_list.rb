@@ -14,7 +14,7 @@ class Data_list
 	end
 
   def get_selected
-		self.selected.dup
+		self.selected.clone
 	end
 
 	def get_names

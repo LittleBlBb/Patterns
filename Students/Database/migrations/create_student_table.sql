@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS student (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id SERIAL PRIMARY KEY ,
     last_name TEXT NOT NULL,
     first_name TEXT NOT NULL,
     middle_name TEXT NOT NULL,

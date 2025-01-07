@@ -37,13 +37,14 @@ class Student_List
   end
 
   def add_student(student)
+    equal_check(student)
     new_id = (@students.map(&:id).max || 0) + 1
     student.id = new_id
     @students << student
-    student
   end
 
   def update_student_by_id(student_id, updated_student)
+    equal_check(updated_student)
     start_index = @students.find_index {|student| student.id == student_id}
 
     if start_index.nil?
@@ -78,5 +79,11 @@ class Student_List
   def file_path=(file_path)
     raise "Файл не найден или некорректный путь: #{file_path}" unless File.exist?(file_path)
     @file_path = file_path
+  end
+
+  def equal_check(student)
+    if @students.any? {|st| st == student }
+      raise ArgumentError, "Student with the same contact or github is already exists"
+    end
   end
 end

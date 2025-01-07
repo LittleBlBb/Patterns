@@ -8,37 +8,37 @@ class Students_list_DB
   end
 
   def get_by_id(student_id)
-    query_result = @db.execute("SELECT * FROM Student WHERE id = #{student_id};")
-    return nil if query_result.nil? || query_result.empty?
+    query_result = @db.execute("SELECT * FROM student WHERE id = $1;", [student_id])
+    return nil if query_result.nil? || query_result.ntuples.zero?
     row = query_result.first
     Student.new(
-      id: row[0].to_i,
-      last_name: row[1],
-      first_name: row[2],
-      middle_name: row[3],
-      phone: row[4],
-      email: row[5],
-      telegram: row[6],
-      github: row[7],
-      birthdate: row[8]
+      id: row["id"].to_i,
+      last_name: row['last_name'],
+      first_name: row['first_name'],
+      middle_name: row['middle_name'],
+      phone: row['phone'],
+      email: row['email'],
+      telegram: row['telegram'],
+      github: row['github'],
+      birthdate: row['birthdate']
     )
   end
 
-  def get_k_n_student_short_list (k, n)
+  def get_k_n_student_short_list(k, n)
     start_index = (k - 1) * n
     end_index = start_index + n - 1
     query_result = @db.execute("SELECT * FROM Student WHERE id BETWEEN #{start_index} AND #{end_index};")
     students = query_result.map do |row|
       Student.new(
-        id: row[0].to_i,
-        last_name: row[1],
-        first_name: row[2],
-        middle_name: row[3],
-        phone: row[4],
-        email: row[5],
-        telegram: row[6],
-        github: row[7],
-        birthdate: row[8]
+        id: row["id"].to_i,
+        last_name: row['last_name'],
+        first_name: row['first_name'],
+        middle_name: row['middle_name'],
+        phone: row['phone'],
+        email: row['email'],
+        telegram: row['telegram'],
+        github: row['github'],
+        birthdate: row['birthdate']
       )
     end
     students_short = students.map do |student|
@@ -65,7 +65,7 @@ class Students_list_DB
                 '#{student.birthdate}'
               );
             ")
-    rescue SQLite3::Exception => e
+    rescue PG::Error => e
       handle_database_error(e)
     end
   end
@@ -85,7 +85,7 @@ class Students_list_DB
               birthdate = '#{student.birthdate}'
       WHERE id = #{student_id};
       ")
-    rescue SQLite3::ConstraintException => e
+    rescue PG::Error => e
       handle_database_error(e)
     end
   end
@@ -99,13 +99,15 @@ class Students_list_DB
   end
 
   def handle_database_error(exception)
-    if exception.is_a?(SQLite3::ConstraintException)
-      if exception.message.include?("student.github")
+    if exception.is_a?(PG::UniqueViolation)
+      if exception.message.include?("student_github_key")
         puts "Ошибка: студент с таким GitHub уже есть."
-      elsif exception.message.include?("student.email")
+      elsif exception.message.include?("student_email_key")
         puts "Ошибка: студент с таким Email уже есть."
-      elsif exception.message.include?("student.telegram")
+      elsif exception.message.include?("student_telegram_key")
         puts "Ошибка: студент с таким Telegram уже есть."
+      elsif exception.message.include?("student_phone_key")
+        puts "Ошибка: студент с таким номером телефона уже есть."
       else
         puts "Ошибка уникальности: #{exception.message}"
       end

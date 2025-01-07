@@ -62,17 +62,17 @@ student1 = Student.new(
   telegram: "@test_telegram",
   email: "apdragon2014@gmail.com",
   github: "https://github.com/LittleBlBb",
-  birthdate: "May 12 2004"
+  birthdate: "May-12-2004"
 )
 studentup2 = Student.new(
   first_name: "Test",
   last_name: "Testov",
   middle_name: "Testovich",
   id: 2,
-  phone: "+12345678990",
-  telegram: "@testttt",
-  email: "test@gmail.com",
-  github: "https://github.com/Test",
+  phone: "+12345178990",
+  telegram: "@testttt1",
+  email: "test1@gmail.com",
+  github: "https://github.com/Test1",
   birthdate: "November 14 2004"
 )
 student2 = Student.new(
@@ -152,10 +152,10 @@ end
 
 SlDB = Students_list_DB.new(db)
 
-SlDB.update_student_by_id(3, studentup2)
+# SlDB.update_student_by_id(3, studentup2)
 SlDB.get_by_id(3)
 puts SlDB.get_k_n_student_short_list(1,3)
-SlDB.add_student(student2)
+SlDB.add_student(studentup2)
 puts SlDB.get_k_n_student_short_list(1,4)
 puts SlDB.get_student_count
 SlDB.delete_student_by_id(3)

@@ -1,5 +1,4 @@
-require 'sqlite3'
-
+require 'pg'
 class DB_Connection
 
   attr_reader :db
@@ -14,20 +13,27 @@ class DB_Connection
   end
 
   def connect
-    @db = SQLite3::Database.new(@db_name)
+    @db = PG::Connection.open(
+      dbname: 'students',
+      user: 'postgres',
+      password: '123',
+      host: 'localhost',
+      port: 5432
+    )
+
   end
 
   def execute(query, params = [])
-    @db.execute(query, params)
+    @db.exec_params(query, params)
   end
 
   def execute_script(file_path)
     script = File.read(file_path)
-    @db.execute_batch(script)
+    @db.exec(script)
   end
 
   def close
-    @db.close
+    @db.close if @db
   end
 
   private_class_method :new

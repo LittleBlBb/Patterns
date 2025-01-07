@@ -1,11 +1,21 @@
 require 'yaml'
+require 'date'
 require_relative 'Strategy.rb'
+
 class YAML_strategy < Strategy
   def read(file_path)
     if File.exist?(file_path)
       content = File.read(file_path)
-      students = YAML.safe_load(content, permitted_classes: [Symbol], symbolize_names: true)
-      students.map {|data| Student.new(**data) }
+      return [] if content.strip.empty?  # Проверка на пустой файл
+      students = YAML.safe_load(content, permitted_classes: [Symbol, Date], symbolize_names: true)
+
+      students.map do |data|
+        # Проверяем, является ли значение даты строкой перед преобразованием в объект Date
+        if data[:birthdate].is_a?(String)
+          data[:birthdate] = Date.parse(data[:birthdate])
+        end
+        Student.new(**data)
+      end
     else
       return []
     end
@@ -21,10 +31,10 @@ class YAML_strategy < Strategy
         phone: student.phone,
         email: student.email,
         telegram: student.telegram,
-        birthdate: student.birthdate,
+        birthdate: student.birthdate.to_s, # Преобразуем объект Date обратно в строку
         github: student.github
       }
     end
-    File.open(file_path, 'w') { |file| file.write(serialized_content.to_yaml) }
+    File.open(file_path, 'w') { |file| file.write(YAML.dump(serialized_content)) }
   end
 end

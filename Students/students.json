@@ -1,68 +1,13 @@
 [
   {
-    "id": 3,
-    "last_name": "Ivanov",
-    "first_name": "Ivan",
-    "middle_name": "Ivanovich",
-    "phone": "+79121212122",
-    "email": "Test@example.com",
-    "telegram": "@example",
-    "birthdate": "2004-11-14",
-    "github": "https://github.com/test"
-  },
-  {
     "id": 1,
-    "last_name": "Ivanov",
-    "first_name": "Ivan",
-    "middle_name": "Ivanovich",
-    "phone": "+79121212122",
-    "email": "Test@example.com",
-    "telegram": "@example",
-    "birthdate": "2004-11-14",
-    "github": "https://github.com/test"
-  },
-  {
-    "id": 5,
-    "last_name": "Ivanov",
-    "first_name": "Ivan",
-    "middle_name": "Ivanovich",
-    "phone": "+79121212122",
-    "email": "Test@example.com",
-    "telegram": "@example",
-    "birthdate": "2004-11-14",
-    "github": "https://github.com/test"
-  },
-  {
-    "id": 6,
-    "last_name": "Joker",
-    "first_name": "Alexandr",
-    "middle_name": "Gartenovich",
-    "phone": "+79558896464",
-    "email": "Joker@example.com",
-    "telegram": "@Joker",
-    "birthdate": "2000-03-03",
-    "github": "https://github.com/Joker"
-  },
-  {
-    "id": 2,
-    "last_name": "Joker",
-    "first_name": "Alexandr",
-    "middle_name": "Gartenovich",
-    "phone": "+79558896464",
-    "email": "Joker@example.com",
-    "telegram": "@Joker",
-    "birthdate": "2000-03-03",
-    "github": "https://github.com/Joker"
-  },
-  {
-    "id": 4,
-    "last_name": "Joker",
-    "first_name": "Alexandr",
-    "middle_name": "Gartenovich",
-    "phone": "+79558896464",
-    "email": "Joker@example.com",
-    "telegram": "@Joker",
-    "birthdate": "2000-03-03",
-    "github": "https://github.com/Joker"
+    "last_name": "Пшеничнов",
+    "first_name": "Андрей",
+    "middle_name": "Александрович",
+    "phone": "+79528125252",
+    "email": "apdragon2014@gmail.com",
+    "telegram": "@test_telegram",
+    "birthdate": "2004-05-12",
+    "github": "https://github.com/LittleBlBb"
   }
 ]

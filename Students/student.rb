@@ -23,8 +23,15 @@ class Student < StudentBase
     end
   end
 
+  def ==(other)
+    if self.phone && other.phone && self.phone == other.phone || self.email && other.email && self.email == other.email || self.telegram && other.telegram && self.telegram == other.telegram || self.github && other.github && self.github == other.github
+      return true
+    end
+    return false
+  end
+
   def birthdate=(birthdate)
-    @birthdate = Date.parse(birthdate) unless birthdate.nil?
+    @birthdate = birthdate.is_a?(String) ? Date.parse(birthdate) : birthdate
   end
 
   def first_name=(first_name)

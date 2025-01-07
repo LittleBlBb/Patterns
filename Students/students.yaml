@@ -6,32 +6,5 @@
   :phone: "+79121212122"
   :email: Test@example.com
   :telegram: "@example"
-  :birthdate: 2004-11-14
+  :birthdate: '2004-11-14'
   :github: https://github.com/test
-- :id: 5
-  :last_name: Joker
-  :first_name: Alexandr
-  :middle_name: Gartenovich
-  :phone: "+79558896464"
-  :email: Joker@example.com
-  :telegram: "@Joker"
-  :birthdate: 2000-03-03
-  :github: https://github.com/Joker
-- :id: 2
-  :last_name: Joker
-  :first_name: Alexandr
-  :middle_name: Gartenovich
-  :phone: "+79558896464"
-  :email: Joker@example.com
-  :telegram: "@Joker"
-  :birthdate: 2000-03-03
-  :github: https://github.com/Joker
-- :id: 3
-  :last_name: Zadikyan
-  :first_name: Avonya
-  :middle_name: Egyptyan
-  :phone: "+78005553535"
-  :email: Armyanchick@ARM.com
-  :telegram: "@AWP_Lego_2"
-  :birthdate: 2004-03-03
-  :github: https://github.com/AVTSS

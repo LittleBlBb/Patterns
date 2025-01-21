@@ -5,8 +5,11 @@ require_relative 'Strategy/yaml_strategy'
 require_relative 'student_list'
 require_relative 'Student'
 require_relative 'StudentShort'
-require_relative '../Students/Database/db_connection'
-require_relative './students_list_DB'
+# require_relative '../Students/Database/db_connection'
+# require_relative './students_list_DB'
+require_relative './StudentsMVC/student_application'
+require 'fox16'
+include Fox
 # #Перенес методы, мол че их пихать в классы, если они есть в рельсах
 # def read_from_txt(path)
 #   begin
@@ -38,65 +41,65 @@ require_relative './students_list_DB'
 
 # Создание через объект Student
 
-hashST = {
-  first_name: "Андрей",
-  last_name: "Пшеничнов",
-  middle_name: "Александрович",
-  id: 1,
-  phone: "+79528125252",
-  telegram: "@test_telegram",
-  email: "apdragon2014@gmail.com",
-  github: "https://github.com/LittleBlBb",
-  birthdate: "May-12-2004"
-}
+# hashST = {
+#   first_name: "Андрей",
+#   last_name: "Пшеничнов",
+#   middle_name: "Александрович",
+#   id: 1,
+#   phone: "+79528125252",
+#   telegram: "@test_telegram",
+#   email: "apdragon2014@gmail.com",
+#   github: "https://github.com/LittleBlBb",
+#   birthdate: "May-12-2004"
+# }
+#
+# hash_st = Student.from_hash(hashST)
+# puts hash_st
 
-hash_st = Student.from_hash(hashST)
-puts hash_st
-
-student1 = Student.new(
-  first_name: "Андрей",
-  last_name: "Пшеничнов",
-  middle_name: "Александрович",
-  id: 1,
-  phone: "+79528125252",
-  telegram: "@test_telegram",
-  email: "apdragon2014@gmail.com",
-  github: "https://github.com/LittleBlBb",
-  birthdate: "May-12-2004"
-)
-studentup2 = Student.new(
-  first_name: "Test",
-  last_name: "Testov",
-  middle_name: "Testovich",
-  id: 2,
-  phone: "+12345178990",
-  telegram: "@testttt1",
-  email: "test1@gmail.com",
-  github: "https://github.com/Test1",
-  birthdate: "November 14 2004"
-)
-student2 = Student.new(
-  first_name: "Александр",
-  last_name: "Кокосов",
-  middle_name: "Дмитриевич",
-  id: 2,
-  phone: "+78005553535",
-  telegram: "@ALEX_telegram",
-  email: "Example@gmail.com",
-  github: "https://github.com/EXAMPLE",
-  birthdate: "September 16 2004"
-)
-student3 = Student.new(
-  first_name: "Дмитрий",
-  last_name: "Гатилов",
-  middle_name: "Романович",
-  id: 3,
-  phone: "+75555555555",
-  telegram: "@DimasArbusiOpt",
-  email: "DimasArbusiOpt@gmail.com",
-  github: "https://github.com/DimasArbusiOpt",
-  birthdate: "May 22 2005"
-)
+# student1 = Student.new(
+#   first_name: "Андрей",
+#   last_name: "Пшеничнов",
+#   middle_name: "Александрович",
+#   id: 1,
+#   phone: "+79528125252",
+#   telegram: "@test_telegram",
+#   email: "apdragon2014@gmail.com",
+#   github: "https://github.com/LittleBlBb",
+#   birthdate: "May-12-2004"
+# )
+# studentup2 = Student.new(
+#   first_name: "Test",
+#   last_name: "Testov",
+#   middle_name: "Testovich",
+#   id: 2,
+#   phone: "+12345178990",
+#   telegram: "@testttt1",
+#   email: "test1@gmail.com",
+#   github: "https://github.com/Test1",
+#   birthdate: "November 14 2004"
+# )
+# student2 = Student.new(
+#   first_name: "Александр",
+#   last_name: "Кокосов",
+#   middle_name: "Дмитриевич",
+#   id: 2,
+#   phone: "+78005553535",
+#   telegram: "@ALEX_telegram",
+#   email: "Example@gmail.com",
+#   github: "https://github.com/EXAMPLE",
+#   birthdate: "September 16 2004"
+# )
+# student3 = Student.new(
+#   first_name: "Дмитрий",
+#   last_name: "Гатилов",
+#   middle_name: "Романович",
+#   id: 3,
+#   phone: "+75555555555",
+#   telegram: "@DimasArbusiOpt",
+#   email: "DimasArbusiOpt@gmail.com",
+#   github: "https://github.com/DimasArbusiOpt",
+#   birthdate: "May 22 2005"
+# )
 #
 # puts student.contact
 # # puts "Вывод студента 1: \n#{student}"
@@ -142,25 +145,37 @@ student3 = Student.new(
 # student_list_json.write
 # student_list_yaml.write
 # ===================DataBase============
-puts "подключение"
-db = DB_Connection.instance('students.db')
-puts "вызов execute"
-rows = db.execute("SELECT * FROM student;")
-rows.each do |row|
-  puts row.inspect
+# puts "подключение"
+# db = DB_Connection.instance('students.db')
+# puts "вызов execute"
+# rows = db.execute("SELECT * FROM student;")
+# rows.each do |row|
+#   puts row.inspect
+# end
+#
+# SlDB = Students_list_DB.new(db)
+#
+# # SlDB.update_student_by_id(3, studentup2)
+# SlDB.get_by_id(3)
+# puts SlDB.get_k_n_student_short_list(1,3)
+# SlDB.add_student(studentup2)
+# puts SlDB.get_k_n_student_short_list(1,4)
+# puts SlDB.get_student_count
+# SlDB.delete_student_by_id(3)
+# puts SlDB.get_k_n_student_short_list(1,15)
+#
+# puts "закрываем подключние"
+# db.close
+# puts "подключение закрыто"
+begin
+  if __FILE__ == $0
+    FXApp.new do |app|
+      StudentApplication.new(app)
+      app.create
+      app.run
+    end
+  end
+rescue ArgumentError => e
+  puts e.message
 end
 
-SlDB = Students_list_DB.new(db)
-
-# SlDB.update_student_by_id(3, studentup2)
-SlDB.get_by_id(3)
-puts SlDB.get_k_n_student_short_list(1,3)
-SlDB.add_student(studentup2)
-puts SlDB.get_k_n_student_short_list(1,4)
-puts SlDB.get_student_count
-SlDB.delete_student_by_id(3)
-puts SlDB.get_k_n_student_short_list(1,15)
-
-puts "закрываем подключние"
-db.close
-puts "подключение закрыто"

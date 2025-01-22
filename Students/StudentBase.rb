@@ -12,12 +12,12 @@ class StudentBase
   end
 
   def id=(id)
-    raise ArgumentError unless StudentBase.id_valid?(id)
+    raise ArgumentError, "invalid id" unless StudentBase.id_valid?(id)
     @id = id
   end
 
   def github=(github)
-    raise ArgumentError unless StudentBase.github_valid?(github)
+    raise ArgumentError, "invalid GitHub" unless StudentBase.github_valid?(github)
     @github = github
   end
 

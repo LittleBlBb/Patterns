@@ -5,6 +5,9 @@ require_relative 'Strategy/yaml_strategy'
 require_relative 'student_list'
 require_relative 'Student'
 require_relative 'StudentShort'
+require_relative '../Students/Adapter/student_list_adapter'
+require_relative '../Students/Filters/filter'
+require_relative '../Students/Filters/empty_git_filter'
 # require_relative '../Students/Database/db_connection'
 # require_relative './students_list_DB'
 require_relative './StudentsMVC/student_application'
@@ -153,7 +156,7 @@ include Fox
 #   puts row.inspect
 # end
 #
-# SlDB = Students_list_DB.new(db)
+# SlDB = StudentListDBAdapter.new(db)
 #
 # # SlDB.update_student_by_id(3, studentup2)
 # SlDB.get_by_id(3)
@@ -168,14 +171,58 @@ include Fox
 # db.close
 # puts "подключение закрыто"
 begin
-  if __FILE__ == $0
-    FXApp.new do |app|
-      StudentApplication.new(app)
-      app.create
-      app.run
-    end
-  end
+#   yaml = YAML_strategy.new
+#   stLAdapter = StudentListAdapter.new(yaml, "C:/Users/Kurdicks/Desktop/Ruby/Students/students.yaml")
+# list_adapter1 = ListAdapter.new(stLAdapter)
+student5 = Student.from_hash(
+  id: 5,
+  last_name: "Пшеничнов",
+  first_name: "Андрей",
+  middle_name: "Александрович",
+  birthdate: "2004-05-12"
+)
+# list_adapter1.add_student(student5)
+# puts "Всего студентов в файле: #{list_adapter1.get_student_count}"
+#   puts list_adapter1
+#   puts list_adapter1.get_k_n_student_short_list(1,25)
+# #
+# student = list_adapter1.get_by_id(1)
+# puts "Найден студент: #{student}"
+#
+base=Filter.new
+filter=EmptyGitFilter.new(base)
+#   puts "here"
+# shrt_list = list_adapter1.get_k_n_student_short_list(1, 40, filter)
+# puts shrt_list
+#   puts "upper"
+# puts list_adapter1.get_student_count(filter)
+#
+#   puts "list1 done"
+
+
+con = DB_Connection.instance('students.db')
+
+list_adapter2 = ListAdapter.new(StudentListDBAdapter.new(con))
+
+puts "Всего студентов в БД: #{list_adapter2.get_student_count}"
+student = list_adapter2.get_by_id(2)
+puts "Найден студент: #{student}"
+list_adapter2.add_student(student)
+list_adapter2.add_student(student5)
+list=list_adapter2.get_k_n_student_short_list(2, 10)
+  puts list
 rescue ArgumentError => e
   puts e.message
 end
-
+# begin
+#   if __FILE__ == $0
+#     FXApp.new do |app|
+#       StudentApplication.new(app, 'students.db')
+#       app.create
+#       app.run
+#     end
+#   end
+# rescue ArgumentError => e
+#   puts e.message
+# end
+#

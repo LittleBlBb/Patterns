@@ -1,10 +1,10 @@
-require_relative '../Students/Database/db_connection'
-require_relative '../Students/Data_list/Data_list_student_short'
+require_relative '../Adapter/adapter'
+require_relative '../Data_list/Data_list_student_short'
 
-class Students_list_DB
+class StudentListDBAdapter < Adapter
 
-  def initialize(db_connection)
-    @db = db_connection
+  def initialize(db_name)
+    @db = DB_Connection.instance(db_name)
   end
 
   def get_by_id(student_id)
@@ -24,7 +24,7 @@ class Students_list_DB
     )
   end
 
-  def get_k_n_student_short_list(k, n)
+  def get_k_n_student_short_list(k, n, filter = nil)
     start_index = (k - 1) * n
     end_index = start_index + n - 1
     query_result = @db.execute("SELECT * FROM Student WHERE id BETWEEN #{start_index} AND #{end_index};")
@@ -41,13 +41,11 @@ class Students_list_DB
         birthdate: row['birthdate']
       )
     end
-    students_short = students.map do |student|
-      StudentShort.new(student)
-    end
-    selected_list = Data_list_student_short.new(students_short)
-    students_short.each_with_index do |_, index| selected_list.select(index)
-    selected_list
-    end
+    filtered_students = filter ? filter.apply_filter(students) : students
+    filtered_students = filtered_students.map {|student| StudentShort.new(student)}
+    selected_list = Data_list_student_short.new(filtered_students)
+    filtered_students.each_with_index {|_, ind| selected_list.select(ind) }
+    selected_list.get_data
   end
 
   def add_student(student)
@@ -94,8 +92,23 @@ class Students_list_DB
     @db.execute("DELETE FROM student WHERE id = #{student_id};")
   end
 
-  def get_student_count
-    @db.execute("SELECT COUNT(*) FROM student;")
+  def get_student_count(filter = nil)
+    result = @db.execute("SELECT * FROM student;")
+    students = result.map do |row|
+      Student.from_hash(
+        id: row['id'].to_i,
+        last_name: row['last_name'],
+        first_name: row['first_name'],
+        middle_name: row['middle_name'],
+        phone: row['phone'],
+        email: row['email'],
+        telegram: row['telegram'],
+        github: row['github'],
+        birthdate: row['birthdate']
+      )
+    end
+    filtered_students = filter ? filter.apply_filter(students) : students
+    filtered_students.size
   end
 
   def handle_database_error(exception)

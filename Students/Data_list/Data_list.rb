@@ -30,6 +30,7 @@ class Data_list
 			result << row
 			index += 1
 		end
+		Data_table.new(result)
 	end
 
 	private

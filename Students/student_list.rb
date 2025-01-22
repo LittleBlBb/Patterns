@@ -15,21 +15,17 @@ class Student_List
     received
   end
 
-  def get_k_n_student_short_list(k, n, existing_data_list = nil)
+  def get_k_n_student_short_list(k, n, filter = nil)
     start_index = (k - 1) * n
     end_index = start_index + n - 1
     short_students = @students[start_index, end_index] || []
-    return existing_data_list || Data_list_student_short.new([]) if short_students.empty?
+    short_students = filter.apply_filter(short_students) if filter
+
     short_students = short_students.map { |student| StudentShort.new(student) }
 
-    if existing_data_list
-      existing_data_list.data = short_students
-      short_students.each_with_index {|_, ind| existing_data_list.select(ind) }
-      return existing_data_list
-    end
     selected_list = Data_list_student_short.new(short_students)
     short_students.each_with_index {|_, ind| selected_list.select(ind) }
-    selected_list
+    selected_list.get_data
   end
 
   def sort_by_initials
@@ -60,8 +56,9 @@ class Student_List
     @students.reject! {|student| student.id == student_id}
   end
 
-  def get_student_count
-    @students.count {|student| student.class == Student}
+  def get_student_count(filter = nil)
+    filtered_students = filter ? filter.apply_filter(@students) : @students
+    filtered_students.size
   end
 
   def read

@@ -6,9 +6,8 @@ include Fox
 class StudentApplication < FXMainWindow
   def initialize(app, db_name)
     super(app, "Students list", width: 1400, height: 900)
-    db_connection = DB_Connection.instance(db_name)
-    db_list = StudentListDBAdapter.new(db_connection)
-    @list = ListAdapter.new(db_list)
+
+    @controller = StudentListController.new(self, db_name)
     @cur_page = 1
     @list_size = 25
 
@@ -118,6 +117,30 @@ class StudentApplication < FXMainWindow
     delete_but = FXButton.new(control_frame, "Delete")
     update_but = FXButton.new(control_frame, "Update")
 
+    edit_but.enabled = false
+    delete_but.enabled = false
+
+    @table.connect(SEL_SELECTED) do
+      selected_rows = (@table.selStartRow..@table.selEndRow).to_a
+      selected_rows_count = selected_rows.count {|row| @table.rowSelected?(row)}
+
+      if selected_rows_count == 0
+        edit_but.enabled = false
+        delete_but.enabled = false
+      elsif selected_rows_count == 1
+        edit_but.enabled = true
+        delete_but.enabled = true
+      else
+        edit_but.enabled = false
+        delete_but.enabled = true
+      end
+    end
+
+    @table.connect(SEL_DESELECTED) do
+      edit_but.enabled = false
+      delete_but.enabled = false
+    end
+
     table2 = FXTabItem.new(table_book, "2")
     FXVerticalFrame.new(table_book, LAYOUT_FILL).tap do |frame|
       FXLabel.new(frame, "2", nil, LAYOUT_CENTER_X)
@@ -137,14 +160,6 @@ class StudentApplication < FXMainWindow
   end
 
   private
-
-  def configure_table
-    @table.setTableSize(0,4)
-    @table.setColumnWidth(0, 50)
-    @table.setColumnWidth(1, 200)
-    @table.setColumnWidth(2, 600)
-    @table.setColumnWidth(3, 200)
-  end
 
   def load_data
     total_items = @list.get_student_count(@filter)

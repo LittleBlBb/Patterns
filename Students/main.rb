@@ -10,7 +10,7 @@ require_relative '../Students/Filters/filter'
 require_relative '../Students/Filters/empty_git_filter'
 # require_relative '../Students/Database/db_connection'
 # require_relative './students_list_DB'
-require_relative './StudentsMVC/student_application'
+require_relative './Views/student_application'
 require 'fox16'
 include Fox
 # #Перенес методы, мол че их пихать в классы, если они есть в рельсах
@@ -70,17 +70,17 @@ include Fox
 #   github: "https://github.com/LittleBlBb",
 #   birthdate: "May-12-2004"
 # )
-# studentup2 = Student.new(
-#   first_name: "Test",
-#   last_name: "Testov",
-#   middle_name: "Testovich",
-#   id: 2,
-#   phone: "+12345178990",
-#   telegram: "@testttt1",
-#   email: "test1@gmail.com",
-#   github: "https://github.com/Test1",
-#   birthdate: "November 14 2004"
-# )
+studentup2 = Student.new(
+  first_name: "Test",
+  last_name: "Testov",
+  middle_name: "Testovich",
+  id: 2,
+  phone: "+12345178990",
+  telegram: "@testttt1",
+  email: "test1@gmail.com",
+  github: "https://github.com/Test1",
+  birthdate: "November 14 2004"
+)
 # student2 = Student.new(
 #   first_name: "Александр",
 #   last_name: "Кокосов",
@@ -130,17 +130,17 @@ include Fox
 # # puts student2.has_github?
 # # puts student2.has_contact?
 # # puts student2.get_git_and_contact
+
+# # Тест для write_to_txt
+# write_path = "to_txt.txt"  # Путь для записи в файл
+# write_to_txt(write_path, students_from_txt)
 #
-# # # Тест для write_to_txt
-# # write_path = "to_txt.txt"  # Путь для записи в файл
-# # write_to_txt(write_path, students_from_txt)
-#
-# # # Тест для ошибок в методе
-# # begin
-# #   Student.from_string("    ")  # Пустая строка, вызовет ошибку
-# # rescue => e
-# #   puts "Ошибка: #{e.message}"
-# # end
+# # Тест для ошибок в методе
+# begin
+#   Student.from_string("    ")  # Пустая строка, вызовет ошибку
+# rescue => e
+#   puts "Ошибка: #{e.message}"
+# end
 # student_list_json = Student_List.new('C:\Users\Kurdicks\Desktop\Ruby\Students\students.json', JSON_strategy.new)
 # student_list_yaml = Student_List.new('C:\Users\Kurdicks\Desktop\Ruby\Students\students.yaml', YAML_strategy.new)
 # puts "Sorted JSON Students: #{student_list_json.sort_by_initials}"
@@ -150,14 +150,17 @@ include Fox
 # ===================DataBase============
 # puts "подключение"
 # db = DB_Connection.instance('students.db')
-# puts "вызов execute"
+# db2 = DB_Connection.instance('students.db')
+
+# puts db == db2 ? "Singleton works correctly" : "Singleton doesnt work correctly"
+
 # rows = db.execute("SELECT * FROM student;")
 # rows.each do |row|
 #   puts row.inspect
 # end
-#
+
 # SlDB = StudentListDBAdapter.new(db)
-#
+
 # # SlDB.update_student_by_id(3, studentup2)
 # SlDB.get_by_id(3)
 # puts SlDB.get_k_n_student_short_list(1,3)
@@ -166,10 +169,10 @@ include Fox
 # puts SlDB.get_student_count
 # SlDB.delete_student_by_id(3)
 # puts SlDB.get_k_n_student_short_list(1,15)
-#
-# puts "закрываем подключние"
+
+
 # db.close
-# puts "подключение закрыто"
+
 # begin
 #   yaml = YAML_strategy.new
 #   stLAdapter = StudentListAdapter.new(yaml, "C:/Users/Kurdicks/Desktop/Ruby/Students/students.yaml")
@@ -214,6 +217,7 @@ student5 = Student.from_hash(
 # rescue ArgumentError => e
 #   puts e.message
 # end
+#====================MVC======================
 begin
   if __FILE__ == $0
     FXApp.new do |app|

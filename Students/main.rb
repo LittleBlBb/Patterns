@@ -151,26 +151,43 @@ studentup2 = Student.new(
 # puts "подключение"
 # db = DB_Connection.instance('students.db')
 # db2 = DB_Connection.instance('students.db')
-
+#
 # puts db == db2 ? "Singleton works correctly" : "Singleton doesnt work correctly"
-
+#
 # rows = db.execute("SELECT * FROM student;")
 # rows.each do |row|
 #   puts row.inspect
 # end
-
+#
 # SlDB = StudentListDBAdapter.new(db)
-
+# for num in 1..25
+#   a = Student.new(
+#     first_name: "AAA",
+#     last_name: "AAA",
+#     middle_name: "AAA",
+#     phone: "+7" + "#{2345999999 + num}",
+#     telegram: "@AAAAA#{num}",
+#     email: "example#{num}@gmail.com",
+#     github: "https://github.com/littleblbb#{num}",
+#     birthdate: "November 14 2004"
+#   )
+#   SlDB.add_student(a)
+# end
+# #
+# rows = db.execute("SELECT * FROM student;")
+# rows.each do |row|
+#   puts row.inspect
+# end
 # # SlDB.update_student_by_id(3, studentup2)
-# SlDB.get_by_id(3)
-# puts SlDB.get_k_n_student_short_list(1,3)
-# SlDB.add_student(studentup2)
-# puts SlDB.get_k_n_student_short_list(1,4)
-# puts SlDB.get_student_count
-# SlDB.delete_student_by_id(3)
-# puts SlDB.get_k_n_student_short_list(1,15)
-
-
+# # SlDB.get_by_id(3)
+# # puts SlDB.get_k_n_student_short_list(1,3)
+# # SlDB.add_student(studentup2)
+# # puts SlDB.get_k_n_student_short_list(1,4)
+# # puts SlDB.get_student_count
+# # SlDB.delete_student_by_id(3)
+# # puts SlDB.get_k_n_student_short_list(1,15)
+#
+#
 # db.close
 
 # begin

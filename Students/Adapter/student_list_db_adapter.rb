@@ -25,11 +25,10 @@ class StudentListDBAdapter < Adapter
   end
 
   def get_k_n_student_short_list(k, n, filter = nil)
-    start_index = (k - 1) * n
-    end_index = start_index + n - 1
-    query_result = @db.execute("SELECT * FROM Student WHERE id BETWEEN #{start_index} AND #{end_index};")
+    offset = (k - 1) * n
+    query_result = @db.execute("SELECT * FROM Student ORDER BY id LIMIT #{n} OFFSET #{offset}")
     students = query_result.map do |row|
-      Student.new(
+      Student.from_hash(
         id: row["id"].to_i,
         last_name: row['last_name'],
         first_name: row['first_name'],
@@ -41,11 +40,11 @@ class StudentListDBAdapter < Adapter
         birthdate: row['birthdate']
       )
     end
-    filtered_students = filter ? filter.apply_filter(students) : students
-    filtered_students = filtered_students.map {|student| StudentShort.new(student)}
-    selected_list = Data_list_student_short.new(filtered_students)
-    filtered_students.each_with_index {|_, ind| selected_list.select(ind) }
-    selected_list.get_data
+    students = filter.apply_filter(students) if filter
+    short_students = students.map { |student| StudentShort.new(student) }
+    selected_list = Data_list_student_short.new(short_students)
+    short_students.each_with_index { |_, ind| selected_list.select(ind) }
+    selected_list
   end
 
   def add_student(student)

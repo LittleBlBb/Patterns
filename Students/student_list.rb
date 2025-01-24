@@ -25,7 +25,7 @@ class Student_List
 
     selected_list = Data_list_student_short.new(short_students)
     short_students.each_with_index {|_, ind| selected_list.select(ind) }
-    selected_list.get_data
+    selected_list
   end
 
   def sort_by_initials
@@ -41,14 +41,14 @@ class Student_List
 
   def update_student_by_id(student_id, updated_student)
     equal_check(updated_student)
-    start_index = @students.find_index {|student| student.id == student_id}
+    index = @students.find_index {|student| student.id == student_id}
 
-    if start_index.nil?
+    if index.nil?
       raise "Student with ID #{student_id} not found"
     end
 
     updated_student.id = student_id
-    @students[start_index] = updated_student
+    @students[index] = updated_student
     true
   end
 
